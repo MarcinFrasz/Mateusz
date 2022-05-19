@@ -3,24 +3,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DbManipulationAppContextConnection") ?? throw new InvalidOperationException("Connection string 'DbManipulationAppContextConnection' not found.");
+var connectionString_identity = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DbManipulationAppContextConnection' not found.");
 
 builder.Services.AddDbContext<DbManipulationAppContext>(options =>
-    options.UseSqlServer(connectionString));;
+    options.UseSqlServer(connectionString_identity));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DbManipulationAppContext>();;
+    .AddEntityFrameworkStores<DbManipulationAppContext>();
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services
-    .AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
