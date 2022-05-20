@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString_identity = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DbManipulationAppContextConnection' not found.");
+var connectionString_identity = builder.Configuration.GetConnectionString("IdentityConnection") ?? throw new InvalidOperationException("Connection string 'IdentityConnection' not found.");
 
 builder.Services.AddDbContext<DbManipulationAppContext>(options =>
     options.UseSqlServer(connectionString_identity));
@@ -13,9 +13,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Add services to the container.
 
+var connectionString_czytania = builder.Configuration.GetConnectionString("CzytaniaConnection") ?? throw new InvalidOperationException("Connection string 'CzytaniaConnection' not found ");
+builder.Services.AddDbContext<DbManipulationAppContext>(options => options.UseSqlServer(connectionString_czytania));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddControllersWithViews();
 
@@ -43,7 +45,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=DataOperations}/{action=Video}/{id?}");
 app.MapRazorPages();
 
 app.Run();

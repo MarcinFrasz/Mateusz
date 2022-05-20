@@ -28,5 +28,11 @@ namespace DbManipulationApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult Komentarze()
+        {
+            Video video = new();
+            video.YoutubeId = "test";
+            return View("~/Views/DataOperations/Video.cshtml",video);
+        }
     }
 }
