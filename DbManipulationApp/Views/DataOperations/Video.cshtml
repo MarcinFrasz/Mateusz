@@ -1,24 +1,28 @@
-﻿@model Video
+﻿@model VideoViewModel
 @{
 }
 
 <div class="form-group">
-    <label asp-for="Data" class="control-label"></label>
+    <label asp-for="Current_video.Data" class="control-label"></label>
     <div class='input-group date' id='datepicker'>
-        <input asp-for="Data" type="text" class="form-control" onchange="onChangeDate()" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
+        <input asp-for="Current_video.Data" type="text" class="form-control" onchange="onChangeDate()" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
     </div>
-    <span asp-validation-for="Data" class="text-danger"></span>
+    <span asp-validation-for="Current_video.Data" class="text-danger"></span>
 </div>
-@using (Html.BeginForm("VideoDatePicked", "DataOperations"))
-{
-<label >@Model.YoutubeId</label>
-<label>@Model.Data</label>
-@Html.LabelFor(m=>m.YoutubeId.ToString());
-@Html.LabelFor(m=>m.Data.ToString());
+<form method="post">
+@Model.Current_video.YoutubeId
+@Html.HiddenFor(m=>m.Current_video.YoutubeId)
+<br />
+<button asp-controller="DataOperations" asp-action="Video">Click Me</button>
+</form>
+<div id="VideoDisplay">
+<partial name="_VideoDisplay"/>
+</div>
 }
+
 @section Scripts
     {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -38,8 +42,11 @@
     jQuery.ajax({
         url: '@Url.Action("VideoDatePicked", "DataOperations")',
         type: 'POST',
-        data: $('#SelectDateForm').serialize(),
+        data: $('#datepicker').serialize(),
         success: function (response) {
+            if (response) {  // check if data is defined
+               $("#VideoDisplay").html(response);
+            }
         }
     });
 }

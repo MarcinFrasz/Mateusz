@@ -1,0 +1,30 @@
+﻿@model VideoViewModel
+YoutubeID:
+<br />
+<table>
+    <tr>
+        <td>Video id</td>
+        <td>Data</td>
+        <td>Typ czytania</td>
+        <td>Youtube id</td>
+        <td>Video</td>
+    </tr>
+    @{
+        foreach(var item in Model.Videos_list)
+        { 
+            <tr>
+            <td>@item.YoutubeId</td>
+            <td>@item.Data</td>
+            <td>@item.TypCzytania</td>
+            <td>@item.YoutubeId</td>
+            <td>
+            <aside>
+            <iframe id="ytplayer" type="text/html" width="600" height="150" src="https://www.youtube.com/embed/@item.YoutubeId" frameborder="0"></iframe>
+            </aside>
+            </td>
+            </tr>
+        }
+    }
+</table>
+<br />
+

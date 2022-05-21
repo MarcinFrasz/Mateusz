@@ -1,4 +1,5 @@
 using DbManipulationApp.Data;
+using DbManipulationApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +13,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<DbManipulationAppContext>();
 
 // Add services to the container.
-
+builder.Services.AddControllersWithViews();
 var connectionString_czytania = builder.Configuration.GetConnectionString("CzytaniaConnection") ?? throw new InvalidOperationException("Connection string 'CzytaniaConnection' not found ");
-builder.Services.AddDbContext<DbManipulationAppContext>(options => options.UseSqlServer(connectionString_czytania));
+builder.Services.AddDbContext<czytaniaContext>(options => options.UseSqlServer(connectionString_czytania));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
