@@ -1,18 +1,18 @@
 ﻿@model VideoViewModel
 @{
 }
-
+<h1>Zarządzanie zawartością tabeli "Video"</h1>
+<form method="post">
 <div class="form-group">
-    <label asp-for="Current_video.Data" class="control-label"></label>
+    <label asp-for="Current_video.Data" class="control-label">Podaj datę:</label>
     <div class='input-group date' id='datepicker'>
-        <input asp-for="Current_video.Data" type="text" class="form-control" onchange="onChangeDate()" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
+        <input asp-for="@Model.Current_video.Data" id="datepicked" type="text" class="form-control" onchange="OnChangeDate()" value="@Model.Current_video.Data.ToString("yyyy-MM-ddThh:mm")" />
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
     </div>
-    <span asp-validation-for="Current_video.Data" class="text-danger"></span>
+    <span asp-validation-for="@Model.Current_video.Data" class="text-danger"></span>
 </div>
-<form method="post">
 @Model.Current_video.YoutubeId
 @Html.HiddenFor(m=>m.Current_video.YoutubeId)
 <br />
@@ -29,7 +29,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
     <script>
@@ -51,6 +51,27 @@
     });
 }
     </script>
-
-}
+    <script>
+        function OnChangeDate()
+        {
+          var videoViewModel =  '@Html.Raw(Json.Serialize(@Model))';
+          
+          
+      $.ajax({
+            url: '@Url.Action("VideoDatePicked", "DataOperations")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { jsonString: videoViewModel,date:$('#datepicked').val()},
+            dataType: 'html',
+            traditional: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (response) {
+                                alert("YES");
+                $('#VideoDisplay').html(response);
+            }
+        });
+        }
+    </script>
+    }
 

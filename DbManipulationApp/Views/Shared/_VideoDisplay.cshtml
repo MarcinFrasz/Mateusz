@@ -1,6 +1,14 @@
 ﻿@model VideoViewModel
-YoutubeID:
-<br />
+@using (Html.BeginForm("VideoDatePicked", "DataOperations"))
+{
+<form method="post">
+    <br />
+    @Model.Current_video.Data 
+    yes
+    <br />
+</form>
+}
+<div id="Videos_table" style="overflow:scroll; height:400px;">
 <table>
     <tr>
         <td>Video id</td>
@@ -26,5 +34,6 @@ YoutubeID:
         }
     }
 </table>
+</div>
 <br />
 
