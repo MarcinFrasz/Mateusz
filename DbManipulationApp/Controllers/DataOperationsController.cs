@@ -20,7 +20,7 @@ namespace DbManipulationApp.Controllers
             ModelState.Clear();
             model.Current_video.Data = DateTime.Now;
             var querry = from vid in _db_czytania.Videos
-                         where vid.IdVideo == 81
+                         where vid.Data == model.Current_video.Data
                          select vid;
             model.Videos_list = querry.ToList<Video>();
             return View(model); 
