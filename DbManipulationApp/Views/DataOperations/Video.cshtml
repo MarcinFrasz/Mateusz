@@ -11,13 +11,16 @@
     value="@Model.Current_video.Data.ToString("yyyy-MM-dd")" 
     />
     <span asp-validation-for="@Model.Current_video.Data" class="text-danger"></span>
+    <div align="right">
     <button 
+    
     id="Button_search"
     type="button" 
     class="btn btn-success" 
     onclick="OnChangeDate()"
     >
     Szukaj</button>
+    </div>
 </div>
 <br />
 </form>
@@ -47,6 +50,26 @@
             async: true,
             cache: false,
             data: { jsonString: videoViewModel,date:$('#datepicked').val()},
+            dataType: 'html',
+            traditional: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (response) {
+                $('#VideoDisplay').html(response);
+            }
+        });
+        }
+    </script>
+    <script>
+                function OnUpdateSelected(id)
+        {
+          
+          
+      $.ajax({
+            url: '@Url.Action("VideoUpdateSelected", "DataOperations")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { Id:id},
             dataType: 'html',
             traditional: true,
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',

@@ -20,9 +20,8 @@ namespace DbManipulationApp.Controllers
             ModelState.Clear();
             model.Current_video.Data = DateTime.Now;
             var querry_videosSelect = _db_czytania.Videos.Where(m => m.Data == model.Current_video.Data);
-            var querry_typczytaniaSelect =
-                from typ in _db_czytania.STypCzytania
-                select typ.STypCzytania;
+            var querry_typczytaniaSelect = _db_czytania.STypCzytania.Select(m=>m.STypCzytania);
+
             model.Videos_list = querry_videosSelect.ToList<Video>();
             model.Czytania_list = querry_typczytaniaSelect.ToList<string>();
             return View(model); 
@@ -42,6 +41,23 @@ namespace DbManipulationApp.Controllers
             model.Videos_list = querry.ToList<Video>();
          
            return PartialView("_VideoDisplay",model);
+        }
+        [HttpPost]
+        public IActionResult VideoUpdateSelected(string Id)
+        {
+            int index = Convert.ToInt32(Id);
+            var querry_getvid = _db_czytania.Videos.Where(m=>m.IdVideo==index);
+            VideoViewModel model = new();
+            model.Videos_list = querry_getvid.ToList();
+            if(model.Videos_list.Count==1)
+            {
+                model.Current_video.IdVideo = model.Videos_list[0].IdVideo;
+                model.Current_video.Data = model.Videos_list[0].Data;
+                model.Current_video.TypCzytania = model.Videos_list[0].TypCzytania;
+                model.Current_video.YoutubeId = model.Videos_list[0].YoutubeId;
+            }
+            model.Czytania_list = _db_czytania.STypCzytania.Select(m => m.STypCzytania).ToList();
+            return PartialView("_VideoDisplay",model);
         }
     }
 }

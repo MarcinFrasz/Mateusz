@@ -13,6 +13,7 @@ Typ czytania:<select
 class="form-control" 
 id="in_typczytania"
 name="input_typczytania"
+asp-for="@Model.Current_video.TypCzytania"
 asp-items= "@Model.Czytania_list.ConvertAll(a =>
                 
                      new SelectListItem()
@@ -21,7 +22,7 @@ asp-items= "@Model.Czytania_list.ConvertAll(a =>
                         Value = a.ToString(),
                         Selected = false
                     }).ToList()">
-<option>Wybierz typ czytania</option>
+
 </select>
 
 Youtube id: <input asp-for=@Model.Current_video.YoutubeId 
@@ -41,7 +42,7 @@ value=@Model.Current_video.YoutubeId
 
 <br />
 <div id="Videos_table" style="overflow:scroll; height:400px;">
-<table>
+<table  class="table table-hover">
     <tr>
         <td>Video id</td>
         <td>Data</td>
@@ -52,8 +53,9 @@ value=@Model.Current_video.YoutubeId
     @{
         foreach(var item in Model.Videos_list)
         { 
+            <input id="VidIdPicked" type="hidden" value="@item.IdVideo">
             <tr>
-            <td>@item.YoutubeId</td>
+            <td>@item.IdVideo</td>
             <td>@item.Data</td>
             <td>@item.TypCzytania</td>
             <td>@item.YoutubeId</td>
@@ -62,6 +64,15 @@ value=@Model.Current_video.YoutubeId
             <iframe id="ytplayer" type="text/html" width="600" height="150" src="https://www.youtube.com/embed/@item.YoutubeId" frameborder="0"></iframe>
             </aside>
             </td>
+            <td>    
+            <span asp-validation-for="@Model.Current_video.Data" class="text-danger"></span>
+            <button 
+            id="Button_search"
+            type="button" 
+            class="btn btn-success" 
+            onclick="OnUpdateSelected(@item.IdVideo)"
+            >
+            Edytuj</button></td>
             </tr>
         }
     }
