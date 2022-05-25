@@ -4,7 +4,7 @@
     {
         Video _current_vid = new();
         List<Video> _videos_list = new();
-        List<STypCzytanium> _czytania_list = new();
+        List<string> _czytania_list = new();
 
         public Video Current_video
         {
@@ -16,7 +16,7 @@
             get { return _videos_list; }
             set { _videos_list=value; }
         }
-        public List<STypCzytanium> Czytania_list
+        public List<string> Czytania_list
         {
             get { return _czytania_list;}
             set { _czytania_list=value;}

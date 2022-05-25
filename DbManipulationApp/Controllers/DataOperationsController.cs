@@ -19,21 +19,17 @@ namespace DbManipulationApp.Controllers
         {
             ModelState.Clear();
             model.Current_video.Data = DateTime.Now;
-            var querry = from vid in _db_czytania.Videos
-                         where vid.Data == model.Current_video.Data
-                         select vid;
-            model.Videos_list = querry.ToList<Video>();
+            var querry_videosSelect = _db_czytania.Videos.Where(m => m.Data == model.Current_video.Data);
+            var querry_typczytaniaSelect =
+                from typ in _db_czytania.STypCzytania
+                select typ.STypCzytania;
+            model.Videos_list = querry_videosSelect.ToList<Video>();
+            model.Czytania_list = querry_typczytaniaSelect.ToList<string>();
             return View(model); 
         }
+
         [HttpPost]
-        public IActionResult Video(VideoViewModel model,string submit)
-        {
-            ModelState.Clear();
-            model.Current_video.YoutubeId = "post";
-            model.Current_video.Data = DateTime.Now;
-            return View(model);
-        }
-        [HttpPost]
+        //[ValidateAntiForgeryToken]
         public IActionResult VideoDatePicked(string jsonString, string date)
         {
             ModelState.Clear();

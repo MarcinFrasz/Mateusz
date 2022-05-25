@@ -4,33 +4,22 @@
 <form method="post">
 <div class="form-group">
     <label asp-for="Current_video.Data" class="control-label">Podaj datę:</label>
-    <div class='input-group date' id='datepicker'>
-        <input asp-for="@Model.Current_video.Data" id="datepicked" type="date" class="form-control" onchange="OnChangeDate()" value="@Model.Current_video.Data />
-        <input id="startDate" class="form-control" type="date" />
-    </div>
+    <input asp-for="@Model.Current_video.Data" 
+    id="datepicked" 
+    type="date"
+    class="form-control" 
+    value="@Model.Current_video.Data.ToString("yyyy-MM-dd")" 
+    />
     <span asp-validation-for="@Model.Current_video.Data" class="text-danger"></span>
+    <button 
+    id="Button_search"
+    type="button" 
+    class="btn btn-success" 
+    onclick="OnChangeDate()"
+    >
+    Szukaj</button>
 </div>
-@Model.Current_video.YoutubeId
-@Html.HiddenFor(m=>m.Current_video.YoutubeId)
 <br />
-<h1>Dodaj/Edytuj rekord</h1>
-<input asp-for=@Model.Current_video.Data 
-type="date" 
-class="form-control" 
-value=@Model.Current_video.Data
-/>
-Data<input asp-for=@Model.Current_video.TypCzytania 
-type="datetime" 
-class="form-control" 
-value=@Model.Current_video.TypCzytania
-/>
-<input asp-for=@Model.Current_video.YoutubeId 
-type="datetime" 
-class="form-control" 
-value=@Model.Current_video.YoutubeId
-/>
-<button asp-controller="DataOperations" asp-action="Video">Add</button>
-<button asp-controller="DataOperations" asp-action="Video">Update</button>
 </form>
 <div id="VideoDisplay">
 <partial name="_VideoDisplay"/>
@@ -62,7 +51,6 @@ value=@Model.Current_video.YoutubeId
             traditional: true,
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (response) {
-                                alert("YES");
                 $('#VideoDisplay').html(response);
             }
         });

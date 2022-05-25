@@ -1,13 +1,45 @@
 ﻿@model VideoViewModel
-@using (Html.BeginForm("VideoDatePicked", "DataOperations"))
-{
+
 <form method="post">
-    <br />
-    @Model.Current_video.Data 
-    yes
-    <br />
+<h1>Dodaj/Edytuj rekord</h1>
+
+Data:<input asp-for=@Model.Current_video.Data 
+type="date" 
+class="form-control" 
+value=@Model.Current_video.Data.ToString("yyyy-MM-dd")
+/>
+
+Typ czytania:<select 
+class="form-control" 
+id="in_typczytania"
+name="input_typczytania"
+asp-items= "@Model.Czytania_list.ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+<option>Wybierz typ czytania</option>
+</select>
+
+Youtube id: <input asp-for=@Model.Current_video.YoutubeId 
+type="datetime" 
+class="form-control" 
+id="in_youtubeid"
+name="input_youtubeid"
+value=@Model.Current_video.YoutubeId
+/>
+
+
+
+
+<button type="button" class="btn btn-success" asp-controller="DataOperations" asp-action="Video">Add</button>
+<button type="button" class="btn btn-warning" asp-controller="DataOperations" asp-action="Video">Update</button>
 </form>
-}
+
+<br />
 <div id="Videos_table" style="overflow:scroll; height:400px;">
 <table>
     <tr>
