@@ -9,5 +9,6 @@ namespace DbManipulationApp.Models
         public string? NazwaDnia { get; set; }
         public bool? Swieto { get; set; }
         public DateTime? Timestamp { get; set; }
+        public DateTime RowVersion { get; set; }
     }
 }

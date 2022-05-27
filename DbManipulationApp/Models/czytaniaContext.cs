@@ -26,16 +26,11 @@ namespace DbManipulationApp.Models
         public virtual DbSet<SKomentarzeZrodla> SKomentarzeZrodlas { get; set; } = null!;
         public virtual DbSet<STypCzytanium> STypCzytania { get; set; } = null!;
         public virtual DbSet<SlownikDni> SlownikDnis { get; set; } = null!;
-        public virtual DbSet<Test> Tests { get; set; } = null!;
         public virtual DbSet<Video> Videos { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.\\SQL_SERVER;Database=czytania; Trusted_Connection=True;");
-            }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -175,6 +170,11 @@ namespace DbManipulationApp.Models
                 entity.Property(e => e.Patron3)
                     .HasMaxLength(255)
                     .HasColumnName("patron3");
+
+                entity.Property(e => e.RowVersion)
+                    .HasColumnType("datetime")
+                    .HasColumnName("row_version")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<Komentarze>(entity =>
@@ -192,6 +192,11 @@ namespace DbManipulationApp.Models
                 entity.Property(e => e.KomZrodlo)
                     .HasMaxLength(255)
                     .HasColumnName("kom_zrodlo");
+
+                entity.Property(e => e.RowVersion)
+                    .HasColumnType("datetime")
+                    .HasColumnName("row_version")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Tekst).HasColumnName("tekst");
             });
@@ -214,6 +219,11 @@ namespace DbManipulationApp.Models
 
                 entity.Property(e => e.Opis).HasColumnName("opis");
 
+                entity.Property(e => e.RowVersion)
+                    .HasColumnType("datetime")
+                    .HasColumnName("row_version")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.Tytul).HasColumnName("tytul");
             });
 
@@ -228,6 +238,11 @@ namespace DbManipulationApp.Models
                 entity.Property(e => e.DzienLiturgiczny)
                     .HasMaxLength(8)
                     .HasColumnName("dzien_liturgiczny");
+
+                entity.Property(e => e.RowVersion)
+                    .HasColumnType("datetime")
+                    .HasColumnName("row_version")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Siglum)
                     .HasMaxLength(255)
@@ -261,6 +276,11 @@ namespace DbManipulationApp.Models
                 entity.Property(e => e.Patron)
                     .HasMaxLength(50)
                     .HasColumnName("patron");
+
+                entity.Property(e => e.RowVersion)
+                    .HasColumnType("datetime")
+                    .HasColumnName("row_version")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Tekst)
                     .HasMaxLength(50)
@@ -314,6 +334,11 @@ namespace DbManipulationApp.Models
                     .HasMaxLength(255)
                     .HasColumnName("nazwa_dnia");
 
+                entity.Property(e => e.RowVersion)
+                    .HasColumnType("datetime")
+                    .HasColumnName("row_version")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.Swieto)
                     .HasColumnName("swieto")
                     .HasDefaultValueSql("((0))");
@@ -321,28 +346,6 @@ namespace DbManipulationApp.Models
                 entity.Property(e => e.Timestamp)
                     .HasColumnType("datetime")
                     .HasColumnName("timestamp");
-            });
-
-            modelBuilder.Entity<Test>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("test");
-
-                entity.Property(e => e.Test1)
-                    .HasMaxLength(10)
-                    .HasColumnName("test")
-                    .IsFixedLength();
-
-                entity.Property(e => e.Test2)
-                    .HasMaxLength(10)
-                    .HasColumnName("test2")
-                    .IsFixedLength();
-
-                entity.Property(e => e.Test3)
-                    .HasMaxLength(10)
-                    .HasColumnName("test3")
-                    .IsFixedLength();
             });
 
             modelBuilder.Entity<Video>(entity =>
@@ -354,6 +357,11 @@ namespace DbManipulationApp.Models
                 entity.Property(e => e.IdVideo).HasColumnName("id_Video");
 
                 entity.Property(e => e.Data).HasPrecision(0);
+
+                entity.Property(e => e.RowVersion)
+                    .HasColumnType("datetime")
+                    .HasColumnName("row_version")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.TypCzytania)
                     .HasMaxLength(255)

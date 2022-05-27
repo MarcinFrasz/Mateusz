@@ -11,5 +11,6 @@ namespace DbManipulationApp.Models
         public string? Autor { get; set; }
         public string? Foto { get; set; }
         public string? Opis { get; set; }
+        public DateTime RowVersion { get; set; }
     }
 }

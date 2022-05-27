@@ -9,55 +9,72 @@ namespace DbManipulationApp.Controllers
     {
         private readonly DbManipulationAppContext _db_identity;
         private readonly czytaniaContext _db_czytania;
-        public DataOperationsController(DbManipulationAppContext db_identity,czytaniaContext db_czytania)
-            {
-                _db_identity=db_identity;
-                _db_czytania = db_czytania;
-            }
-        [HttpGet]
+        public DataOperationsController(DbManipulationAppContext db_identity, czytaniaContext db_czytania)
+        {
+            _db_identity = db_identity;
+            _db_czytania = db_czytania;
+        }
         public IActionResult Video(VideoViewModel model)
         {
             ModelState.Clear();
-            model.Current_video.Data = DateTime.Now;
-            var querry_videosSelect = _db_czytania.Videos.Where(m => m.Data == model.Current_video.Data);
-            var querry_typczytaniaSelect = _db_czytania.STypCzytania.Select(m=>m.STypCzytania);
-
-            model.Videos_list = querry_videosSelect.ToList<Video>();
-            model.Czytania_list = querry_typczytaniaSelect.ToList<string>();
-            return View(model); 
+            if (model.Date==DateTime.MinValue)
+            {
+                model.Date = DateTime.Now.Date;
+            }
+            var querry_videosSelect = _db_czytania.Videos.Where(m => m.Data == model.Date.Date);
+            model.Videos = querry_videosSelect;
+            return View(model);
         }
-
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public IActionResult VideoDatePicked(string jsonString, string date)
+        public IActionResult VideoD(string date)
         {
             ModelState.Clear();
-            VideoViewModel model = JsonConvert.DeserializeObject<VideoViewModel>(jsonString);
-                model.Current_video.Data = Convert.ToDateTime(date);
+            VideoViewModel model = new VideoViewModel();
+            //var date_in = Convert.ToDateTime(id);
+            DateTime date_in;
 
-            var querry = from vid in _db_czytania.Videos
-                         where vid.Data == model.Current_video.Data
-                         select vid;
-            model.Videos_list = querry.ToList<Video>();
-         
-           return PartialView("_VideoDisplay",model);
+            if (date != null)
+                date_in = DateTime.ParseExact(date, "dd/MM/yyyy", null);
+            else
+                date_in = DateTime.Now;
+
+            var querry_videosSelect = _db_czytania.Videos.Where(m => m.Data.Date == date_in.Date);
+            model.Date = date_in.Date;
+            model.Videos = querry_videosSelect;
+            return View("Video",model);
         }
         [HttpPost]
-        public IActionResult VideoUpdateSelected(string Id)
+        //[ValidateAntiForgeryToken]
+        public IActionResult VideoDatePicked(string date)
         {
-            int index = Convert.ToInt32(Id);
-            var querry_getvid = _db_czytania.Videos.Where(m=>m.IdVideo==index);
-            VideoViewModel model = new();
-            model.Videos_list = querry_getvid.ToList();
-            if(model.Videos_list.Count==1)
+            ModelState.Clear();           
+            try
             {
-                model.Current_video.IdVideo = model.Videos_list[0].IdVideo;
-                model.Current_video.Data = model.Videos_list[0].Data;
-                model.Current_video.TypCzytania = model.Videos_list[0].TypCzytania;
-                model.Current_video.YoutubeId = model.Videos_list[0].YoutubeId;
+                var currentDate = Convert.ToDateTime(date);
+                var querry = from vid in _db_czytania.Videos
+                             where vid.Data == currentDate
+                             select vid;
+                return PartialView("_VideoDisplay", querry);
             }
-            model.Czytania_list = _db_czytania.STypCzytania.Select(m => m.STypCzytania).ToList();
-            return PartialView("_VideoDisplay",model);
+            catch(Exception)
+            {
+                ModelState.AddModelError("Current_video.Data", "Format daty jest nieprawidłowy.");
+            }         
+           return PartialView("_VideoDisplay");
+        }
+        [HttpGet]
+        public IActionResult VideoAdd()
+        {
+            var querry_typczytania =
+                from typ in _db_czytania.STypCzytania
+                select typ.STypCzytania;
+            List<string> typCzytania_list = querry_typczytania.ToList();
+            ViewData["typCzytania_list"] = typCzytania_list;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult VideoAdd(Video model)
+        {
+            return RedirectToAction("VideoD", new { @date = model.Data.ToString("dd/MM/yyyy") }); 
         }
     }
 }

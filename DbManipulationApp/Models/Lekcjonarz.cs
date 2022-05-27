@@ -10,5 +10,6 @@ namespace DbManipulationApp.Models
         public string? TypCzytania { get; set; }
         public string? Siglum { get; set; }
         public string? Tekst { get; set; }
+        public DateTime RowVersion { get; set; }
     }
 }

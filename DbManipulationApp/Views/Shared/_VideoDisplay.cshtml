@@ -1,47 +1,7 @@
-﻿@model VideoViewModel
-
-<form method="post">
-<h1>Dodaj/Edytuj rekord</h1>
-
-Data:<input asp-for=@Model.Current_video.Data 
-type="date" 
-class="form-control" 
-value=@Model.Current_video.Data.ToString("yyyy-MM-dd")
-/>
-
-Typ czytania:<select 
-class="form-control" 
-id="in_typczytania"
-name="input_typczytania"
-asp-for="@Model.Current_video.TypCzytania"
-asp-items= "@Model.Czytania_list.ConvertAll(a =>
-                
-                     new SelectListItem()
-                    {
-                        Text = a.ToString(),
-                        Value = a.ToString(),
-                        Selected = false
-                    }).ToList()">
-
-</select>
-
-Youtube id: <input asp-for=@Model.Current_video.YoutubeId 
-type="datetime" 
-class="form-control" 
-id="in_youtubeid"
-name="input_youtubeid"
-value=@Model.Current_video.YoutubeId
-/>
-
-
-
-
-<button type="button" class="btn btn-success" asp-controller="DataOperations" asp-action="Video">Add</button>
-<button type="button" class="btn btn-warning" asp-controller="DataOperations" asp-action="Video">Update</button>
-</form>
+﻿@model IEnumerable<Video>
 
 <br />
-<div id="Videos_table" style="overflow:scroll; height:400px;">
+<div id="Videos_table" style="overflow:scroll; height:600px;">
 <table  class="table table-hover">
     <tr>
         <td>Video id</td>
@@ -51,11 +11,11 @@ value=@Model.Current_video.YoutubeId
         <td>Video</td>
     </tr>
     @{
-        foreach(var item in Model.Videos_list)
-        { 
-            <input id="VidIdPicked" type="hidden" value="@item.IdVideo">
-            <tr>
-            <td>@item.IdVideo</td>
+            foreach (var item in Model)
+            {
+                <input id="VidIdPicked" type="hidden" value="@item.IdVideo">
+                <tr>
+                    <td>@item.IdVideo</td>
             <td>@item.Data</td>
             <td>@item.TypCzytania</td>
             <td>@item.YoutubeId</td>
@@ -64,19 +24,28 @@ value=@Model.Current_video.YoutubeId
             <iframe id="ytplayer" type="text/html" width="600" height="150" src="https://www.youtube.com/embed/@item.YoutubeId" frameborder="0"></iframe>
             </aside>
             </td>
-            <td>    
-            <span asp-validation-for="@Model.Current_video.Data" class="text-danger"></span>
+            <td>
+            <div align="center">
             <button 
-            id="Button_search"
+            id="Btn_edit"
             type="button" 
             class="btn btn-success" 
             onclick="OnUpdateSelected(@item.IdVideo)"
             >
-            Edytuj</button></td>
+            Edytuj</button>
+            <br>
+            <br>
+            <button
+            id="Btn_delete"
+            type="button"
+            class="btn btn-danger"
+            >
+            <i class="bi bi-trash"></i>Usuń</button>
+            </div>
+            </td>
             </tr>
         }
     }
 </table>
 </div>
 <br />
-

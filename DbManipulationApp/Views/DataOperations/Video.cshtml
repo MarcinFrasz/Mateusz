@@ -1,31 +1,35 @@
 ﻿@model VideoViewModel
-
 <h1>Zarządzanie zawartością tabeli "Video"</h1>
-<form method="post">
-<div class="form-group">
-    <label asp-for="Current_video.Data" class="control-label">Podaj datę:</label>
-    <input asp-for="@Model.Current_video.Data" 
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">Podaj datę:</label>
+    <input asp-for=Date 
     id="datepicked" 
     type="date"
     class="form-control" 
-    value="@Model.Current_video.Data.ToString("yyyy-MM-dd")" 
-    />
-    <span asp-validation-for="@Model.Current_video.Data" class="text-danger"></span>
-    <div align="right">
-    <button 
-    
+    value="@Model.Date.ToString("yyyy-MM-dd")" 
+    />  
+        <button 
+    asp-asp-controller="DataOperations"
     id="Button_search"
     type="button" 
+    style="margin-top:10px; margin-bottom:10px;"
     class="btn btn-success" 
     onclick="OnChangeDate()"
     >
-    Szukaj</button>
+    <i class="bi bi-search"></i>Szukaj</button>
+            </div>
     </div>
+<div align="right">
+<a
+class="btn btn-primary"
+asp-controller="DataOperations"
+asp-action="VideoAdd"
+>
+<i class="bi bi-plus-circle"></i>Dodaj nowe video</a>
 </div>
-<br />
-</form>
 <div id="VideoDisplay">
-<partial name="_VideoDisplay"/>
+<partial name="_VideoDisplay" model=@Model.Videos/>
 </div>
 
 
@@ -41,15 +45,12 @@
     <script>
         function OnChangeDate()
         {
-          var videoViewModel =  '@Html.Raw(Json.Serialize(@Model))';
-          
-          
       $.ajax({
             url: '@Url.Action("VideoDatePicked", "DataOperations")',
             type: 'POST',
             async: true,
             cache: false,
-            data: { jsonString: videoViewModel,date:$('#datepicked').val()},
+            data: { date:$('#datepicked').val()},
             dataType: 'html',
             traditional: true,
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -79,5 +80,7 @@
         });
         }
     </script>
+
     }
 
+    

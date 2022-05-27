@@ -17,5 +17,6 @@ namespace DbManipulationApp.Models
         public string? Patron1 { get; set; }
         public string? Patron2 { get; set; }
         public string? Patron3 { get; set; }
+        public DateTime RowVersion { get; set; }
     }
 }

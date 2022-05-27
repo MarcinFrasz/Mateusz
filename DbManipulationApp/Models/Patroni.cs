@@ -12,5 +12,6 @@ namespace DbManipulationApp.Models
         public string? Opis { get; set; }
         public string? Tekst { get; set; }
         public bool? Wyswietl { get; set; }
+        public DateTime RowVersion { get; set; }
     }
 }

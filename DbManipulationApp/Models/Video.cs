@@ -8,11 +8,9 @@ namespace DbManipulationApp.Models
     {
         [Key]
         public int IdVideo { get; set; }
-        [Required(ErrorMessage ="Data jest pomen wymaganym.")]
         public DateTime Data { get; set; }
-        [Required(ErrorMessage ="Typ czytania jest polem wymagany.")]
         public string? TypCzytania { get; set; }
-        [Required(ErrorMessage ="Youtube id jest polem wymaganym")]
         public string? YoutubeId { get; set; }
+        public DateTime RowVersion { get; set; }
     }
 }

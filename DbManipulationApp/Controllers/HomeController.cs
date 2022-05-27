@@ -31,8 +31,9 @@ namespace DbManipulationApp.Controllers
         public IActionResult Komentarze()
         {
             Video video = new();
-            video.YoutubeId = "test";
-            return View("~/Views/DataOperations/Video.cshtml",video);
+              video.YoutubeId = "test";
+             return View("~/Views/DataOperations/Video.cshtml",video);
+            
         }
     }
 }

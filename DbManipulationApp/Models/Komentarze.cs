@@ -9,5 +9,6 @@ namespace DbManipulationApp.Models
         public string DzienLiturgiczny { get; set; } = null!;
         public string? KomZrodlo { get; set; }
         public string? Tekst { get; set; }
+        public DateTime RowVersion { get; set; }
     }
 }
