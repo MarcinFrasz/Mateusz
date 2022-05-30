@@ -3,7 +3,7 @@
     public class VideoViewModel
     {
         private DateTime _date= new();
-        private IEnumerable<Video> _videos;
+        private IEnumerable<Video> _videos=Enumerable.Empty<Video>();
         public DateTime Date
         {
             get { return _date; }

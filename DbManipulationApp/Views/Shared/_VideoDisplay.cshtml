@@ -1,21 +1,22 @@
 ﻿@model IEnumerable<Video>
-
 <br />
 <div id="Videos_table" style="overflow:scroll; height:600px;">
 <table  class="table table-hover">
-    <tr>
-        <td>Video id</td>
-        <td>Data</td>
-        <td>Typ czytania</td>
-        <td>Youtube id</td>
-        <td>Video</td>
+    <thead>
+    <tr class="table-primary">
+        <th>Video id</th>
+        <th>Data</th>
+        <th>Typ czytania</th>
+        <th>Youtube id</th>
+        <th>Video</th>
     </tr>
+    </thead>
     @{
             foreach (var item in Model)
             {
-                <input id="VidIdPicked" type="hidden" value="@item.IdVideo">
-                <tr>
-                    <td>@item.IdVideo</td>
+            
+             <tr>
+            <td>@item.IdVideo</td>
             <td>@item.Data</td>
             <td>@item.TypCzytania</td>
             <td>@item.YoutubeId</td>
@@ -26,21 +27,12 @@
             </td>
             <td>
             <div align="center">
-            <button 
-            id="Btn_edit"
-            type="button" 
-            class="btn btn-success" 
-            onclick="OnUpdateSelected(@item.IdVideo)"
-            >
-            Edytuj</button>
+            <a asp-controller="Video" asp-action="Edit" asp-route-id="@item.IdVideo" 
+            class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edytuj</a>
             <br>
             <br>
-            <button
-            id="Btn_delete"
-            type="button"
-            class="btn btn-danger"
-            >
-            <i class="bi bi-trash"></i>Usuń</button>
+            <a asp-controller="Video" asp-action="Delete" asp-route-id="@item.IdVideo" 
+            class="btn btn-danger"><i class="bi bi-trash-fill"></i> Usuń</a>
             </div>
             </td>
             </tr>

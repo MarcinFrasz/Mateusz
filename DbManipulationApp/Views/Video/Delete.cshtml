@@ -1,0 +1,47 @@
+﻿@model Video
+
+<form method="post">
+<input asp-for=RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Usuń Video</h1>
+<div class="mb-3">
+<label asp-for=IdVideo></label>
+<input asp-for="IdVideo" class="form-control" hidden/>
+<input asp-for="IdVideo" class="form-control" disabled/>
+<span asp-validation-for="IdVideo"/>
+</div>
+<div class="mb-3">
+<label asp-for="Data"></label>
+<input asp-for=Data type="date" class="form-control" disabled/>
+<input asp-for="Data" class="form-control" hidden/>
+<span asp-validation-for="Data" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="TypCzytania"></label>
+<input asp-for=TypCzytania class="form-control" disabled/>
+<input asp-for="TypCzytania" class="form-control" hidden/>
+<span asp-validation-for="TypCzytania" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=YoutubeId></label>
+<input asp-for=YoutubeId class="form-control" disabled/>
+<input asp-for="YoutubeId" class="form-control" hidden/>
+<span asp-validation-for="YoutubeId" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-danger">
+   Usuń</button>
+   <a asp-controller="Video" asp-action="Index" class="btn btn-secondary">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
+}

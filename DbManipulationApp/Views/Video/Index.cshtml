@@ -1,16 +1,18 @@
 ﻿@model VideoViewModel
+<form method="post">
 <h1>Zarządzanie zawartością tabeli "Video"</h1>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label class="control-label">Podaj datę:</label>
+<div class="border p-3 mt-4">
+    <div class="mb-3">
+    <label class="control-label">Podaj datę:</label>
     <input asp-for=Date 
     id="datepicked" 
     type="date"
     class="form-control" 
     value="@Model.Date.ToString("yyyy-MM-dd")" 
     />  
+    <div align="right">
         <button 
-    asp-asp-controller="DataOperations"
+    asp-asp-controller="Video"
     id="Button_search"
     type="button" 
     style="margin-top:10px; margin-bottom:10px;"
@@ -18,26 +20,17 @@
     onclick="OnChangeDate()"
     >
     <i class="bi bi-search"></i>Szukaj</button>
+    </div>
             </div>
     </div>
-<div align="right">
-<a
-class="btn btn-primary"
-asp-controller="DataOperations"
-asp-action="VideoAdd"
->
-<i class="bi bi-plus-circle"></i>Dodaj nowe video</a>
+<div align="right" style="margin-top:10px">
+   <button type="submit" class="btn btn-primary">
+   <i class="bi bi-plus-circle"></i>Dodaj nowe video</button>
 </div>
+</form>
 <div id="VideoDisplay">
 <partial name="_VideoDisplay" model=@Model.Videos/>
 </div>
-
-
-
-
-
-
-
 
 
 @section Scripts
@@ -46,11 +39,15 @@ asp-action="VideoAdd"
         function OnChangeDate()
         {
       $.ajax({
-            url: '@Url.Action("VideoDatePicked", "DataOperations")',
+            url: '@Url.Action("IndexDatePicked", "Video")',
             type: 'POST',
             async: true,
             cache: false,
             data: { date:$('#datepicked').val()},
+             headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
             dataType: 'html',
             traditional: true,
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -60,27 +57,6 @@ asp-action="VideoAdd"
         });
         }
     </script>
-    <script>
-                function OnUpdateSelected(id)
-        {
-          
-          
-      $.ajax({
-            url: '@Url.Action("VideoUpdateSelected", "DataOperations")',
-            type: 'POST',
-            async: true,
-            cache: false,
-            data: { Id:id},
-            dataType: 'html',
-            traditional: true,
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            success: function (response) {
-                $('#VideoDisplay').html(response);
-            }
-        });
-        }
-    </script>
-
     }
 
     

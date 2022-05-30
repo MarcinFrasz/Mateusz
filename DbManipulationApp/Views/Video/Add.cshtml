@@ -1,0 +1,48 @@
+﻿@model Video
+
+<form method="post">
+<div class="border p-3 mt-4">
+<h1>Dodaj Video</h1>
+<div class="mb-3">
+<label asp-for="Data"></label>
+<input asp-for=Data type="date" class="form-control"/>
+<span asp-validation-for="Data" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="TypCzytania"></label>
+<select asp-for="TypCzytania" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["typCzytania_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+
+</select>
+<span asp-validation-for="TypCzytania" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=YoutubeId></label>
+<input asp-for=YoutubeId class="form-control"/>
+<span asp-validation-for="YoutubeId" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-success">
+   Dodaj</button>
+   <a asp-controller="Video" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
+}
