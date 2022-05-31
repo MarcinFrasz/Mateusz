@@ -1,5 +1,5 @@
 ﻿@model Video
-
+@* Edit view for video*@
 <form method="post">
 <input asp-for=RowVersion hidden />
 <div class="border p-3 mt-4">
@@ -56,8 +56,6 @@ asp-items= "@((List<string>)ViewData["typCzytania_list"]).ConvertAll(a =>
         <th>Video</th>
     </tr>
     </thead>
-
-
              <tr>
             <td>@Model.IdVideo</td>
             <td>@Model.Data</td>

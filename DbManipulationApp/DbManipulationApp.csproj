@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Icons\" />
-    <Folder Include="Views\SlownikDni\" />
   </ItemGroup>
 
 </Project>

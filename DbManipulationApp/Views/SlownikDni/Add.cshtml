@@ -1,0 +1,44 @@
+﻿@model SlownikDni
+
+@*Add view for SlownikDni*@
+
+<form method="post">
+<div class="border p-3 mt-4">
+<h1>Dodaj nowy dzień liturgiczny</h1>
+<div class="mb-3">
+<label asp-for=DzienLiturgiczny></label>
+<input asp-for=DzienLiturgiczny class="form-control"/>
+<span asp-validation-for="DzienLiturgiczny" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="NazwaDnia"></label>
+<input asp-for=NazwaDnia class="form-control"/>
+<span asp-validation-for="NazwaDnia" class="text-danger"></span>
+</div>
+<div class="mb-3">
+
+ <input asp-for=Swieto class="form-check-input" type="checkbox">
+ <label asp-for=Swieto></label>
+<span asp-validation-for="Swieto" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for=Timestamp  class="form-control"/>
+    <input asp-for=Timestamp type="date" class="form-control"/>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-success">
+   Dodaj</button>
+   <a asp-controller="SlownikDni" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
+}

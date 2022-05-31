@@ -1,4 +1,7 @@
 ﻿@model VideoViewModel
+
+@*Index for Video*@
+
 <form method="post">
 <h1>Zarządzanie zawartością tabeli "Video"</h1>
 <div class="border p-3 mt-4">
@@ -8,7 +11,6 @@
     id="datepicked" 
     type="date"
     class="form-control" 
-    value="@Model.Date.ToString("yyyy-MM-dd")" 
     />  
     <div align="right">
         <button 
@@ -16,7 +18,7 @@
     id="Button_search"
     type="button" 
     style="margin-top:10px; margin-bottom:10px;"
-    class="btn btn-success" 
+    class="btn btn-info" 
     onclick="OnChangeDate()"
     >
     <i class="bi bi-search"></i>Szukaj</button>
@@ -24,7 +26,7 @@
             </div>
     </div>
 <div align="right" style="margin-top:10px">
-   <button type="submit" class="btn btn-primary">
+   <button type="submit" class="btn btn-success">
    <i class="bi bi-plus-circle"></i>Dodaj nowe video</button>
 </div>
 </form>

@@ -27,9 +27,17 @@ namespace DbManipulationApp.Controllers
             {
                 model.Date = DateTime.Now.Date;
             }
-            var querry_videosSelect = _db_czytania.Videos.Where(m => m.Data.Date == model.Date.Date);
-            model.Videos = querry_videosSelect;
-            return View(model);
+            try
+            {
+                var querry_videosSelect = _db_czytania.Videos.Where(m => m.Data.Date == model.Date.Date);
+                model.Videos = querry_videosSelect;
+                return View(model);
+            }
+            catch(Exception)
+            {
+                TempData["error"] = "Wystąpił problem podczas ładowania danych.";
+                return View(model);
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -76,11 +84,19 @@ namespace DbManipulationApp.Controllers
             }
             if(TempData["error"]!=null)
             TempData["error"] = TempData["error"];
-            var querry_typczytania =
-                from typ in _db_czytania.STypCzytania
-                select typ.STypCzytania;
-            ViewData["typCzytania_list"] = querry_typczytania.ToList();
-            return View("Add", model);
+            try
+            {
+                var querry_typczytania =
+                    from typ in _db_czytania.STypCzytania
+                    select typ.STypCzytania;
+                ViewData["typCzytania_list"] = querry_typczytania.ToList();
+                return View("Add", model);
+            }
+            catch(Exception)
+            {
+                TempData["error"] = "Wystąpił problem podczas wczytywania wartości.";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -94,6 +110,7 @@ namespace DbManipulationApp.Controllers
                     var qValidateTypCzytania = _db_czytania.Videos.Where(m => m.Data == model.Data && m.TypCzytania == model.TypCzytania);
                     if (qValidateTypCzytania.Any()==false)
                     {
+                        model.RowVersion = DateTime.Now;
                         _db_czytania.Videos.Add(model);
                         _db_czytania.SaveChanges();
                         TempData["success"] = "Nowy rekord został  pomyślnie dodany.";
@@ -113,7 +130,7 @@ namespace DbManipulationApp.Controllers
                         return RedirectToAction("Add");
                     }
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     var querry_typczytania =
                     from typ in _db_czytania.STypCzytania
@@ -125,10 +142,18 @@ namespace DbManipulationApp.Controllers
             }
             else
             {
-                var querry_typczytania =
-                from typ in _db_czytania.STypCzytania
-                select typ.STypCzytania;
-                ViewData["typCzytania_list"] = querry_typczytania.ToList();
+                try
+                {
+                    var querry_typczytania =
+                    from typ in _db_czytania.STypCzytania
+                    select typ.STypCzytania;
+                    ViewData["typCzytania_list"] = querry_typczytania.ToList();
+                }
+                catch(Exception)
+                {
+                    ViewData["error"] = "Wystąpił problem podczas wczytywania wartości.";
+                    RedirectToAction("Index");
+                }
             }
             return View(model);
         }
@@ -140,9 +165,17 @@ namespace DbManipulationApp.Controllers
             {
                 return NotFound();
             }
-            var querry = _db_czytania.Videos.Find(id);
-            Video model = querry;
-            return View(model);
+            try
+            {
+                var querry = _db_czytania.Videos.Find(id);
+                Video model = querry;
+                return View(model);
+            }
+            catch(Exception)
+            {
+                TempData["error"] = "Wystąpił problem podczas wczytywani wartości.";
+                return RedirectToAction("Index");
+            }
         }
         
         [HttpPost]
@@ -151,7 +184,17 @@ namespace DbManipulationApp.Controllers
         {
             if(ModelState.IsValid)
             {
-                var model_check=_db_czytania.Videos.Find(model.IdVideo);
+                Video? model_check = new();
+                try
+                {
+                     model_check = _db_czytania.Videos.Find(model.IdVideo);
+                }
+                catch(Exception)
+                {
+                    TempData["error"] = "Wystąpił błąd podczas wczytywania danych";
+                    return RedirectToAction("Index");
+                }
+
                 if(JsonConvert.SerializeObject(model) == JsonConvert.SerializeObject(model_check))
                 {
                     try
@@ -166,8 +209,7 @@ namespace DbManipulationApp.Controllers
                     {
                         TempData["error"] = "Wystąpił błąd proszę spróbować ponownie.";
                         TempData["date"] = model.Data.Date.ToString("dd/MM/yyyy");
-                        //return RedirectToAction("Index");
-                        throw;
+                        return RedirectToAction("Index");
                     }
                     }
                 TempData["error"] = "Wystąpił błąd, możliwe, że rekord został zmodyfikowany.";
@@ -183,14 +225,22 @@ namespace DbManipulationApp.Controllers
                 id=(int)TempData["id"];
             if (id == null)
                 return NotFound();
-
-            var querry_typczytania =
-                            from typ in _db_czytania.STypCzytania
-                            select typ.STypCzytania;
-            ViewData["typCzytania_list"] = querry_typczytania.ToList();
-            var querry = _db_czytania.Videos.Find(id);
-            Video model = querry;
-            return View(model);
+            try
+            {
+                var querry_typczytania =
+                                from typ in _db_czytania.STypCzytania
+                                select typ.STypCzytania;
+                ViewData["typCzytania_list"] = querry_typczytania.ToList();
+                var querry = _db_czytania.Videos.Find(id);
+                Video model = new();
+                model = querry;
+                return View(model);
+            }
+            catch(Exception)
+            {
+                TempData["error"] = "Wystąpił błąd podczas wczytywania danych.";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -199,33 +249,66 @@ namespace DbManipulationApp.Controllers
         {
             if(ModelState.IsValid)
             {
-                var model_check = _db_czytania.Videos.Find(model.IdVideo);
+                Video? model_check = new();
+                try
+                {
+                    model_check = _db_czytania.Videos.Find(model.IdVideo);
+                }
+                catch(Exception)
+                {
+                    TempData["error"] = "Wystąpił błąd podczas wczytywania danych.";
+                    return RedirectToAction("Index");
+                }
                 if(model_check!=null && model_check.RowVersion==model.RowVersion)
                 {
                     model_check.Data = model.Data;
                     if(model_check.TypCzytania!=model.TypCzytania)
                     {
-                        var check_exists = _db_czytania.Videos.Where(m=>m.Data==model.Data && m.TypCzytania==model.TypCzytania);
-                        if(check_exists.Any())
+                        IQueryable<Video>? check_exists;
+                        try
                         {
-
-                            var querry_typczytania =
-                            from typ in _db_czytania.STypCzytania
-                            select typ.STypCzytania;
-                            ViewData["typCzytania_list"] = querry_typczytania.ToList();
-                            TempData["error"] = "Istnieje już rekord dla podanej daty i typu czytania!";
-                            TempData["id"] = model.IdVideo;
-                            return RedirectToAction("Edit");
+                            check_exists = _db_czytania.Videos.Where(m => m.Data == model.Data && m.TypCzytania == model.TypCzytania);
+                        }
+                        catch(Exception)
+                        {
+                            TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
+                            return RedirectToAction("Index");
+                        }
+                            if(check_exists.Any())
+                        {
+                            try
+                            {
+                                var querry_typczytania =
+                                from typ in _db_czytania.STypCzytania
+                                select typ.STypCzytania;
+                                ViewData["typCzytania_list"] = querry_typczytania.ToList();
+                                TempData["error"] = "Istnieje już rekord dla podanej daty i typu czytania!";
+                                TempData["id"] = model.IdVideo;
+                                return RedirectToAction("Edit");
+                            }
+                            catch (Exception)
+                            {
+                                TempData["error"] = "Wystąpił problem podczas wczytywania danych";
+                                return RedirectToAction("Index");
+                            }
                         }
                     }
                     model_check.TypCzytania = model.TypCzytania;
                     model_check.YoutubeId = model.YoutubeId;
                     model_check.RowVersion = DateTime.Now;
-                    _db_czytania.Videos.Update(model_check);
-                    _db_czytania.SaveChanges();
-                    TempData["date"] = model.Data.ToString("dd/MM/yyyy");
-                    TempData["success"] = "Pomyślnie zmodyfikowano rekord.";
-                    return RedirectToAction("Index");
+                    try
+                    {
+                        _db_czytania.Videos.Update(model_check);
+                        _db_czytania.SaveChanges();
+                        TempData["date"] = model.Data.ToString("dd/MM/yyyy");
+                        TempData["success"] = "Pomyślnie zmodyfikowano rekord.";
+                        return RedirectToAction("Index");
+                    }
+                    catch(Exception)
+                    {
+                        TempData["error"] = "Wystąpił błąd podczas wczytywania danych.";
+                        return RedirectToAction("Index");
+                    }
                 }
                 TempData["date"] = model.Data.ToString("dd/MM/yyyy");
                 TempData["error"] = "Rekord uległ zmianie przed zakończeniem operacji, spróbuj ponownie.";

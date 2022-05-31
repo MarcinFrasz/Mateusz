@@ -1,0 +1,47 @@
+﻿@model SlownikDni
+@*  Delete view for Video*@
+<form method="post">
+<input asp-for=RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Usuń Video</h1>
+<div class="mb-3">
+<label asp-for=DzienLiturgiczny></label>
+<input asp-for="DzienLiturgiczny" class="form-control" hidden/>
+<input asp-for="DzienLiturgiczny" class="form-control" disabled/>
+<span asp-validation-for="DzienLiturgiczny"/>
+</div>
+<div class="mb-3">
+<label asp-for="NazwaDnia"></label>
+<input asp-for=NazwaDnia class="form-control" disabled/>
+<input asp-for="NazwaDnia" class="form-control" hidden/>
+<span asp-validation-for="NazwaDnia" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="Swieto"></label>
+<input asp-for=Swieto class="form-control" type="checkbox" disabled/>
+<input asp-for="Swieto" type="checkbox" class="form-control" hidden/>
+<span asp-validation-for="Swieto" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=Timestamp></label>
+<input asp-for=Timestamp class="form-control" type="date" disabled/>
+<input asp-for="Timestamp" class="form-control" type="date" hidden/>
+<span asp-validation-for="Timestamp" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-danger">
+   Usuń</button>
+   <a asp-controller="Video" asp-action="Index" class="btn btn-secondary">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
+}

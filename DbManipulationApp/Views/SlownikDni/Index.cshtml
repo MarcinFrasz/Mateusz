@@ -1,0 +1,85 @@
+﻿@model SlownikDniViewModel
+
+@*Index for SlownikDni*@
+
+<form method="post">
+<h1>Zarządzanie zawartością tabeli "SlownikDni"</h1>
+<div class="border p-3 mt-4">
+    <div class="mb-3">
+    <label class="control-label">Podaj dzień liturgiczny:</label>
+    <input asp-for=Dzien_liturgiczny 
+    id="dzienpicked" 
+    class="form-control" 
+    />
+    <span asp-validation-for=Dzien_liturgiczny class=text-danger></span>
+    <div align="right">
+    <button asp-asp-controller="SlownikDni"
+    id="Button_search"
+    type="button" 
+    style="margin-top:10px; margin-bottom:10px;"
+    class="btn btn-info" 
+    onclick="OnChangeDzienLiturgiczny()"
+    >
+    <i class="bi bi-search"></i>Szukaj</button>
+    </div>
+            </div>
+    </div>
+<div align="right" style="margin-top:10px">
+   <a asp-controller="SlownikDni" asp-action="Add" 
+    class="btn btn-success"><i class="bi bi-pencil-square"></i> Dodaj nowy dzień liturgiczny</a>
+</div>
+</form>
+<div id="SlownikDniDisplay">
+<partial name="_SlownikDniDisplay" model=@Model.SlownikDni_list/>
+</div>
+
+
+@section Scripts
+    {   
+    <script>
+        function OnChangeDzienLiturgiczny()
+        {
+      $.ajax({
+            url: '@Url.Action("IndexDzienLiturgicznyPicked", "SlownikDni")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { dzien_liturgiczny:$('#dzienpicked').val()},
+             headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+            dataType: 'html',
+            traditional: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (response) {
+                $('#SlownikDniDisplay').html(response);
+            }
+        });
+        }
+    </script>  
+     <script>
+        function OnChangeDate()
+        {
+      $.ajax({
+            url: '@Url.Action("IndexDatePicked", "Video")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { date:$('#datepicked').val()},
+             headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+            dataType: 'html',
+            traditional: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (response) {
+                $('#VideoDisplay').html(response);
+            }
+        });
+        }
+    </script>
+    }
+
+    
