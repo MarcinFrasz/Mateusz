@@ -2,7 +2,7 @@
 {
     public class SlownikDniViewModel
     {
-            private string _dzien_liturgiczny = "";
+        private string? _dzien_liturgiczny;
             private IEnumerable<SlownikDni> _slownikDni_list = Enumerable.Empty<SlownikDni>();
             public string Dzien_liturgiczny
             {

@@ -13,6 +13,8 @@
     />
     <span asp-validation-for=Dzien_liturgiczny class=text-danger></span>
     <div align="right">
+    <a asp-controller="SlownikDni" asp-action="Index"  
+            class="btn btn-info"><i class="bi bi-arrow-clockwise"></i> Odśwież stronę</a>
     <button asp-asp-controller="SlownikDni"
     id="Button_search"
     type="button" 
@@ -58,28 +60,6 @@
         });
         }
     </script>  
-     <script>
-        function OnChangeDate()
-        {
-      $.ajax({
-            url: '@Url.Action("IndexDatePicked", "Video")',
-            type: 'POST',
-            async: true,
-            cache: false,
-            data: { date:$('#datepicked').val()},
-             headers: {
-                    RequestVerificationToken:
-                        $('input:hidden[name="__RequestVerificationToken"]').val()
-                },
-            dataType: 'html',
-            traditional: true,
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            success: function (response) {
-                $('#VideoDisplay').html(response);
-            }
-        });
-        }
-    </script>
     }
 
     

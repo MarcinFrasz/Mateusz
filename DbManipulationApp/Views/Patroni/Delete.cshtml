@@ -1,5 +1,53 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Patroni
+@*  Delete view for Patroni*@
+<form method="post">
+<input asp-for=RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Usuń Patrona</h1>
+<div class="mb-3">
+<label asp-for=Id></label>
+<input asp-for="Id" class="form-control" hidden/>
+<input asp-for="Id" class="form-control" disabled/>
+<span asp-validation-for="Id"/>
+</div>
+<div class="mb-3">
+<label asp-for="Data"></label>
+<input asp-for=Data class="form-control" disabled/>
+<input asp-for="Data" class="form-control" hidden/>
+<span asp-validation-for="Data" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="Patron"></label>
+<textarea asp-for=Patron class="form-control" disabled></textarea>
+<textarea asp-for="Patron" class="form-control" hidden></textarea>
+<span asp-validation-for="Patron" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="Glowny"></label>
+<input asp-for=Glowny class="form-check-input" type="checkbox" disabled/>
+<input asp-for="Glowny" class="form-check-input" type="checkbox" hidden/>
+<span asp-validation-for="Glowny" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="Opis"></label>
+<textarea asp-for=Opis class="form-control" disabled></textarea>
+<textarea asp-for="Opis" class="form-control" hidden></textarea>
+<span asp-validation-for="Opis" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-danger">
+   Usuń</button>
+   <a asp-controller="Patroni" asp-action="Index" class="btn btn-secondary">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
 }

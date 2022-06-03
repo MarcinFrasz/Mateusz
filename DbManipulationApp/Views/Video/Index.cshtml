@@ -1,7 +1,6 @@
 ﻿@model VideoViewModel
 
 @*Index for Video*@
-
 <form method="post">
 <h1>Zarządzanie zawartością tabeli "Video"</h1>
 <div class="border p-3 mt-4">
@@ -27,9 +26,9 @@
     </div>
 <div align="right" style="margin-top:10px">
    <button type="submit" class="btn btn-success">
-   <i class="bi bi-plus-circle"></i>Dodaj nowe video</button>
+  <i class="bi bi-plus-circle"></i> Dodaj nowe video</button>
 </div>
-</form>
+    </form>
 <div id="VideoDisplay">
 <partial name="_VideoDisplay" model=@Model.Videos/>
 </div>

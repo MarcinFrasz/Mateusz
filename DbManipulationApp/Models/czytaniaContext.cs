@@ -257,7 +257,7 @@ namespace DbManipulationApp.Models
 
             modelBuilder.Entity<Patroni>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e=>e.Id);
 
                 entity.ToTable("patroni");
 

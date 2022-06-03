@@ -1,5 +1,72 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model SlownikDniEditModel
+@* Edit view for video*@
+<form method="post">
+<input asp-for=EditedRecord.RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Edytuj Video</h1>
+<div class="mb-3">
+<label asp-for="EditedRecord.DzienLiturgiczny"></label>
+<input asp-for="EditedRecord.DzienLiturgiczny" class="form-control"  />
+<span asp-validation-for="EditedRecord.DzienLiturgiczny" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.NazwaDnia"></label>
+<input asp-for=EditedRecord.NazwaDnia class="form-control"/>
+<span asp-validation-for="EditedRecord.NazwaDnia" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.Swieto"></label>
+<input asp-for="EditedRecord.Swieto" type="checkbox" class="form-check-input"/>
+<span asp-validation-for="EditedRecord.Swieto" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=EditedRecord.Timestamp></label>
+<input asp-for=EditedRecord.Timestamp type="date" class="form-control"/>
+<span asp-validation-for="EditedRecord.Timestamp" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-success">
+   Zapisz zmiany</button>
+   <a asp-controller="SlownikDni" asp-action="Index" class="btn btn-secondary">
+           <i class="bi bi-arrow-return-left"></i> Wróć do listy
+        </a>
+</div>
+<table  class="table table-hover">
+    <thead>
+    <tr class="table-primary">
+        <th>Video id</th>
+        <th>Data</th>
+        <th>Typ czytania</th>
+        <th>Youtube id</th>
+        <th>Video</th>
+    </tr>
+    </thead>
+             <tr>
+            <td>
+                @Model.MainRecord.DzienLiturgiczny
+                <input asp-for=MainRecord.DzienLiturgiczny hidden />
+            </td>
+            <td>
+                @Model.MainRecord.NazwaDnia
+                <input asp-for=MainRecord.NazwaDnia hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.Swieto
+                <input asp-for=MainRecord.Swieto hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.Timestamp
+                <input asp-for=MainRecord.Timestamp hidden/>
+                <input asp-for=MainRecord.RowVersion hidden/>
+                </td>
+            </tr>
+</table>
+</form>
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
 }

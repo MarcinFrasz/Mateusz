@@ -1,23 +1,23 @@
-﻿@model Video
+﻿@model VideoEditModel
 @* Edit view for video*@
 <form method="post">
-<input asp-for=RowVersion hidden />
+<input asp-for=EditedRecord.RowVersion hidden />
 <div class="border p-3 mt-4">
 <h1>Edytuj Video</h1>
 <div class="mb-3">
-<label asp-for="IdVideo"></label>
-<input asp-for="IdVideo" class="form-control" disabled />
-<input asp-for="IdVideo" hidden/>
-<span asp-validation-for="IdVideo" class="text-danger"></span>
+<label asp-for="EditedRecord.IdVideo"></label>
+<input asp-for="EditedRecord.IdVideo" class="form-control" disabled />
+<input asp-for="EditedRecord.IdVideo" hidden/>
+<span asp-validation-for="EditedRecord.IdVideo" class="text-danger"></span>
 </div>
 <div class="mb-3">
-<label asp-for="Data"></label>
-<input asp-for=Data type="date" class="form-control"/>
-<span asp-validation-for="Data" class="text-danger"></span>
+<label asp-for="EditedRecord.Data"></label>
+<input asp-for=EditedRecord.Data type="date" class="form-control"/>
+<span asp-validation-for="EditedRecord.Data" class="text-danger"></span>
 </div>
 <div class="mb-3">
-<label asp-for="TypCzytania"></label>
-<select asp-for="TypCzytania" 
+<label asp-for="EditedRecord.TypCzytania"></label>
+<select asp-for="EditedRecord.TypCzytania" 
 class="form-control" 
 asp-items= "@((List<string>)ViewData["typCzytania_list"]).ConvertAll(a =>
                 
@@ -29,12 +29,12 @@ asp-items= "@((List<string>)ViewData["typCzytania_list"]).ConvertAll(a =>
                     }).ToList()">
 
 </select>
-<span asp-validation-for="TypCzytania" class="text-danger"></span>
+<span asp-validation-for="EditedRecord.TypCzytania" class="text-danger"></span>
 </div>
 <div class="mb-3">
-<label asp-for=YoutubeId></label>
-<input asp-for=YoutubeId class="form-control"/>
-<span asp-validation-for="YoutubeId" class="text-danger"></span>
+<label asp-for=EditedRecord.YoutubeId></label>
+<input asp-for=EditedRecord.YoutubeId class="form-control"/>
+<span asp-validation-for="EditedRecord.YoutubeId" class="text-danger"></span>
 </div>
 <div class="mb-3">
 <label class="text-danger">@TempData["error"]</label>
@@ -42,10 +42,9 @@ asp-items= "@((List<string>)ViewData["typCzytania_list"]).ConvertAll(a =>
    <button type="submit" class="btn btn-success">
    Zapisz zmiany</button>
    <a asp-controller="Video" asp-action="Index" class="btn btn-secondary">
-            Wróć do listy
+           <i class="bi bi-arrow-return-left"></i> Wróć do listy
         </a>
 </div>
-</form>
 <table  class="table table-hover">
     <thead>
     <tr class="table-primary">
@@ -57,17 +56,31 @@ asp-items= "@((List<string>)ViewData["typCzytania_list"]).ConvertAll(a =>
     </tr>
     </thead>
              <tr>
-            <td>@Model.IdVideo</td>
-            <td>@Model.Data</td>
-            <td>@Model.TypCzytania</td>
-            <td>@Model.YoutubeId</td>
+            <td>
+                @Model.MainRecord.IdVideo
+                <input asp-for=MainRecord.IdVideo hidden />
+            </td>
+            <td>
+                @Model.MainRecord.Data
+                <input asp-for=MainRecord.Data hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.TypCzytania
+                <input asp-for=MainRecord.TypCzytania hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.YoutubeId
+                <input asp-for=MainRecord.YoutubeId hidden/>
+                <input asp-for=MainRecord.RowVersion hidden/>
+                </td>
             <td>
             <aside>
-            <iframe id="ytplayer" type="text/html" width="600" height="150" src="https://www.youtube.com/embed/@Model.YoutubeId" frameborder="0"></iframe>
+            <iframe id="ytplayer" type="text/html" width="600" height="150" src="https://www.youtube.com/embed/@Model.MainRecord.YoutubeId" frameborder="0"></iframe>
             </aside>
             </td>
             </tr>
 </table>
+</form>
 @section Scripts
 {
     @{
