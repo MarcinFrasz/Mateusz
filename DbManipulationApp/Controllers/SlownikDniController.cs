@@ -228,13 +228,13 @@ namespace DbManipulationApp.Controllers
                         TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
                         return RedirectToAction("Index");
                     }
-                    if (check_querry != null)
+                    if (check_querry != null && check_querry.RowVersion==model.MainRecord.RowVersion)
                     {
                         check_querry.DzienLiturgiczny = model.EditedRecord.DzienLiturgiczny;
                         check_querry.NazwaDnia = model.EditedRecord.NazwaDnia;
                         check_querry.Swieto = model.EditedRecord.Swieto;
                         check_querry.Timestamp = model.EditedRecord.Timestamp;
-                        check_querry.RowVersion = model.EditedRecord.RowVersion;
+                        check_querry.RowVersion = DateTime.Now;
                         try
                         {
                             _db_czytania.SlownikDnis.Update(check_querry);
@@ -262,7 +262,7 @@ namespace DbManipulationApp.Controllers
                     return RedirectToAction("Index");
                 }
                 SlownikDni? check_existing;
-                if (check_querry != null)
+                if (check_querry != null && check_querry.RowVersion==model.MainRecord.RowVersion)
                 {
                     try
                     {
@@ -281,6 +281,7 @@ namespace DbManipulationApp.Controllers
                     }
                     try 
                     { 
+                    model.EditedRecord.RowVersion = DateTime.Now;
                     _db_czytania.SlownikDnis.Add(model.EditedRecord);
                     _db_czytania.Remove(check_querry);
                     _db_czytania.SaveChanges();

@@ -221,7 +221,7 @@ namespace DbManipulationApp.Controllers
                     TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
                     return RedirectToAction("Index");
                 }
-                if (check_querry != null &&)
+                if (check_querry != null && check_querry.RowVersion==model.MainRecord.RowVersion)
                 { 
                     try
                     {
