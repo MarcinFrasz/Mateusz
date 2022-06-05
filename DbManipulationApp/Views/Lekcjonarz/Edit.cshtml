@@ -1,5 +1,83 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model LekcjonarzEditView
+@* Edit view for Lekcjonarz*@
+<form method="post">
+<input asp-for=EditedRecord.RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Edytuj Patrona</h1>
+<div class="mb-3">
+<label asp-for="EditedRecord.IdLlekcjonarz"></label>
+<input asp-for="EditedRecord.IdLlekcjonarz" class="form-control" disabled />
+<input asp-for="EditedRecord.IdLlekcjonarz" hidden/>
+<span asp-validation-for="EditedRecord.IdLlekcjonarz" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.DzienLiturgiczny"></label>
+<input asp-for=EditedRecord.DzienLiturgiczny class="form-control"/>
+<span asp-validation-for="EditedRecord.DzienLiturgiczny" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.TypCzytania"></label>
+<textarea asp-for=EditedRecord.TypCzytania class="form-control"></textarea>
+<span asp-validation-for="EditedRecord.TypCzytania" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=EditedRecord.Siglum></label>
+<input asp-for=EditedRecord.Siglum type="checkbox" class="form-check-input"/>
+<span asp-validation-for="EditedRecord.Siglum" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=EditedRecord.Tekst></label>
+<textarea asp-for=EditedRecord.Tekst class="form-control"></textarea>
+<span asp-validation-for="EditedRecord.Tekst" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-success">
+   Zapisz zmiany</button>
+   <a asp-controller="Patroni" asp-action="Index" class="btn btn-secondary">
+           <i class="bi bi-arrow-return-left"></i> Wróć do listy
+        </a>
+</div>
+<table  class="table table-hover">
+    <thead>
+    <tr class="table-primary">
+        <th>Patron id</th>
+        <th>Data</th>
+        <th>Patron</th>
+        <th>Główny</th>
+        <th>Opis</th>
+    </tr>
+    </thead>
+             <tr>
+            <td>
+                @Model.MainRecord.IdLlekcjonarz
+                <input asp-for=MainRecord.IdLlekcjonarz hidden />
+            </td>
+            <td>
+                @Model.MainRecord.DzienLiturgiczny
+                <input asp-for=MainRecord.DzienLiturgiczny hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.TypCzytania
+                <textarea asp-for=MainRecord.TypCzytania hidden></textarea>
+                </td>
+            <td>
+                @Model.MainRecord.Siglum
+                <input asp-for=MainRecord.Siglum  hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.Tekst
+                <textarea asp-for=MainRecord.Tekst hidden></textarea>
+                <input asp-for=MainRecord.RowVersion hidden/>
+                </td>
+            <td>
+            </tr>
+</table>
+</form>
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
 }

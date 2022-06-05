@@ -1,5 +1,53 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Lekcjonarz
+@*  Delete view for Lekcjonarz*@
+<form method="post">
+<input asp-for=RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Usuń Lekcjonarz</h1>
+<div class="mb-3">
+<label asp-for=IdLlekcjonarz></label>
+<input asp-for="IdLlekcjonarz" class="form-control" hidden/>
+<input asp-for="IdLlekcjonarz" class="form-control" disabled/>
+<span asp-validation-for="IdLlekcjonarz"/>
+</div>
+<div class="mb-3">
+<label asp-for="DzienLiturgiczny"></label>
+<input asp-for=DzienLiturgiczny class="form-control" disabled/>
+<input asp-for="DzienLiturgiczny" class="form-control" hidden/>
+<span asp-validation-for="TypCzytania" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="TypCzytania"></label>
+<input asp-for=TypCzytania class="form-control" disabled></input>
+<input asp-for="TypCzytania" class="form-control" hidden></input>
+<span asp-validation-for="TypCzytania" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="Siglum"></label>
+<input asp-for=Siglum class="form-check-input" type="checkbox" disabled/>
+<input asp-for="Siglum" class="form-check-input" type="checkbox" hidden/>
+<span asp-validation-for="Siglum" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="Tekst"></label>
+<textarea asp-for=Tekst class="form-control" disabled></textarea>
+<textarea asp-for="Tekst" class="form-control" hidden></textarea>
+<span asp-validation-for="Tekst" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-danger">
+   Usuń</button>
+   <a asp-controller="Lekcjonarz" asp-action="Index" class="btn btn-secondary">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
 }

@@ -1,5 +1,105 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model LekcjonarzViewModel
+
+@*Index for Lekcjonarz*@
+
+<form method="post">
+<h1>Zarządzanie zawartością tabeli "Lekcjonarz"</h1>
+<div class="border p-3 mt-4">
+    <div class="mb-3">
+    <label class="control-label">Wybierz dzień liturgiczny:</label>
+        <select asp-for="DzienLiturgiczny"  id="dzienselected"
+class="form-control" 
+asp-items= "@((List<string>)ViewData["dzienLiturgiczny_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+</select>
+    <button asp-asp-controller="Lekcjonarz"
+    id="Button_search_select"
+    type="button" 
+    style="margin-top:10px; margin-bottom:10px;"
+    class="btn btn-info" 
+    onclick="OnSelectDay()"
+    >Wybierz</button>
+    </div>
+    <div class="mb-3">
+    <label class="control-label">Podaj dzień liturgiczny:</label>
+    <input asp-for=DzienLiturgiczny id="dzienpicked" class="form-control"/>
+    <span asp-validation-for=DzienLiturgiczny class=text-danger></span>
+    <div align="right">
+    <a asp-controller="Lekcjonarz" asp-action="Index"  
+            class="btn btn-info"><i class="bi bi-arrow-clockwise"></i> Odśwież stronę</a>
+    <button asp-asp-controller="Lekcjonarz"
+    id="Button_search"
+    type="button" 
+    style="margin-top:10px; margin-bottom:10px;"
+    class="btn btn-info" 
+    onclick="OnChangeDay()"
+    >
+    <i class="bi bi-search"></i>Szukaj</button>
+    </div>
+            </div>
+    </div>
+<div align="right" style="margin-top:10px">
+   <a asp-controller="Lekcjonarz" asp-action="Add" 
+    class="btn btn-success"><i class="bi bi-pencil-square"></i> Dodaj nowy rekord</a>
+</div>
+</form>
+<div id="LekcjonarzDisplay">
+<partial name="_LekcjonarzDisplay" model=@Model.Lekcjonarze/>
+</div>
+
+
+@section Scripts
+    {   
+    <script>
+        function OnChangeDay()
+        {
+      $.ajax({
+            url: '@Url.Action("IndexDayPicked", "Lekcjonarz")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { day:$('#dzienpicked').val()},
+             headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+            dataType: 'html',
+            traditional: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (response) {
+                $('#LekcjonarzDisplay').html(response);
+            }
+        });
+        }
+    </script>
+        <script>
+        function OnSelectDay()
+        {
+      $.ajax({
+            url: '@Url.Action("IndexDaySelected", "Lekcjonarz")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { day:$('#dzienselected').val()},
+             headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+            dataType: 'html',
+            traditional: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (response) {
+                $('#LekcjonarzDisplay').html(response);
+            }
+        });
+        }
+    </script>  
+    }
+
+    
