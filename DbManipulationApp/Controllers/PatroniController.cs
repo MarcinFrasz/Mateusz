@@ -89,7 +89,6 @@ namespace DbManipulationApp.Controllers
                 catch(Exception)
                 {
                     TempData["error"] = "Wystąpił problem podczas zapisu danych. Proszę spróbować ponownie.";
-                    //return RedirectToAction("Index");
                     throw;
                 }
                 TempData["success"] = "Pomyślnie dodano nowy rekord.";
@@ -115,10 +114,7 @@ namespace DbManipulationApp.Controllers
                 TempData["error"] = "Wystąpił problem podczas wczytywani wartości.";
                 return RedirectToAction("Index");
             }
-            Patroni model = new();
-            if (querry != null)
-                model = querry;
-            return View(model);
+            return View(querry);
         }
 
         [HttpPost]

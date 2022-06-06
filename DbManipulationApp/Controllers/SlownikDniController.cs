@@ -118,17 +118,17 @@ namespace DbManipulationApp.Controllers
             {
                 return NotFound();
             }
-            SlownikDni? querry;
+            SlownikDni? model;
             try
             {
-                querry = _db_czytania.SlownikDnis.Find(id);
+                model = _db_czytania.SlownikDnis.Find(id);
             }
             catch (Exception)
             {
                 TempData["error"] = "Wystąpił problem podczas wczytywani wartości.";
                 return RedirectToAction("Index");
             }
-            SlownikDni model = querry;
+
             return View(model);
         }
 

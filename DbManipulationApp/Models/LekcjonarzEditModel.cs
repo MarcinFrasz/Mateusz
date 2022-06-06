@@ -1,6 +1,6 @@
 ﻿namespace DbManipulationApp.Models
 {
-    public class LekcjonarzEditView
+    public class LekcjonarzEditModel
     {
         private Lekcjonarz? _mainRecord;
         private Lekcjonarz? _editedRecord;

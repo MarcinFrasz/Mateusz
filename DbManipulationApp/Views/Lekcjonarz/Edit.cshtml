@@ -1,4 +1,4 @@
-﻿@model LekcjonarzEditView
+﻿@model LekcjonarzEditModel
 @* Edit view for Lekcjonarz*@
 <form method="post">
 <input asp-for=EditedRecord.RowVersion hidden />
@@ -22,7 +22,7 @@
 </div>
 <div class="mb-3">
 <label asp-for=EditedRecord.Siglum></label>
-<input asp-for=EditedRecord.Siglum type="checkbox" class="form-check-input"/>
+<input asp-for=EditedRecord.Siglum  class="form-control"/>
 <span asp-validation-for="EditedRecord.Siglum" class="text-danger"></span>
 </div>
 <div class="mb-3">

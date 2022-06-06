@@ -26,37 +26,32 @@ namespace DbManipulationApp.Controllers
             if (model.Date == DateTime.MinValue)
                 model.Date = DateTime.Now.Date;
 
-            IQueryable<Video>? querry_videosSelect;
             try
             {
-                querry_videosSelect = _db_czytania.Videos.Where(m => m.Data.Date == model.Date.Date);
+                model.Videos = _db_czytania.Videos.Where(m => m.Data.Date == model.Date.Date);
             }
             catch (Exception)
             {
                 TempData["error"] = "Wystąpił problem podczas ładowania danych.";
                 return View(model);
             }
-            if (querry_videosSelect.Any())
-                model.Videos = querry_videosSelect;
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(DateTime? date)
         {
-            IQueryable<string>? querry_typczytania;
             try
             {
-                querry_typczytania =
-                from typ in _db_czytania.STypCzytania
-                select typ.STypCzytania;
+                ViewData["typCzytania_list"] =
+                (from typ in _db_czytania.STypCzytania
+                select typ.STypCzytania).ToList();
             }
             catch (Exception)
             {
                 TempData["error"] = "Wystąpił błąd podczas wczytywania danych.";
                 return RedirectToAction("Index");
             }
-            ViewData["typCzytania_list"] = querry_typczytania.ToList();
             if (date != null)
             {
                 DateTime ndate = (DateTime)date;
@@ -82,8 +77,7 @@ namespace DbManipulationApp.Controllers
                 ModelState.AddModelError("Data", "Format daty jest nieprawidłowy.");
                 return PartialView("_VideoDisplay", Enumerable.Empty<Video>());
             }
-            IEnumerable<Video> model = querry;
-            return PartialView("_VideoDisplay", model);
+            return PartialView("_VideoDisplay", querry);
         }
 
         public IActionResult Add(string? id)
@@ -91,9 +85,7 @@ namespace DbManipulationApp.Controllers
             ModelState.Clear();
             Video model = new();
             if (TempData["model"] != null)
-            {
                 model = JsonConvert.DeserializeObject<Video>((string)TempData["model"]);
-            }
             else
             {
                 if (id != null)
@@ -104,19 +96,17 @@ namespace DbManipulationApp.Controllers
             }
             if (TempData["error"] != null)
                 TempData["error"] = TempData["error"];
-            IQueryable<string>? querry_typczytania;
             try
             {
-                querry_typczytania =
-                    from typ in _db_czytania.STypCzytania
-                    select typ.STypCzytania;
+                ViewData["typCzytania_list"] =
+                    (from typ in _db_czytania.STypCzytania
+                    select typ.STypCzytania).ToList();
             }
             catch (Exception)
             {
                 TempData["error"] = "Wystąpił problem podczas wczytywania wartości.";
                 return RedirectToAction("Index");
             }
-            ViewData["typCzytania_list"] = querry_typczytania.ToList();
             return View("Add", model);
         }
 
@@ -155,19 +145,17 @@ namespace DbManipulationApp.Controllers
                 }
                 else
                 {
-                    IQueryable<string>? querry_typczytania;
                     try
                     {
-                        querry_typczytania =
-                        from typ in _db_czytania.STypCzytania
-                        select typ.STypCzytania;
+                        ViewData["typCzytania_list"] =
+                        (from typ in _db_czytania.STypCzytania
+                        select typ.STypCzytania).ToList();
                     }
                     catch (Exception)
                     {
                         TempData["error"] = "Wystąpił błąd podczas wczytywania danych.";
                         return RedirectToAction("Index");
                     }
-                    ViewData["typCzytania_list"] = querry_typczytania.ToList();
                     TempData["error"] = "Istnieje już rekord dla podanej daty i typu czytania!";
                     TempData["model"] = JsonConvert.SerializeObject(model);
                     return RedirectToAction("Add");
@@ -183,19 +171,16 @@ namespace DbManipulationApp.Controllers
             if (id == null)
                 return NotFound();
 
-            Video? querry;
+            Video model = new();
             try
             {
-                querry = _db_czytania.Videos.Find(id);
+                model = _db_czytania.Videos.Find(id);
             }
             catch (Exception)
             {
                 TempData["error"] = "Wystąpił problem podczas wczytywani wartości.";
                 return RedirectToAction("Index");
             }
-            Video model = new();
-            if (querry != null)
-                model = querry;
             return View(model);
         }
 
@@ -272,19 +257,17 @@ namespace DbManipulationApp.Controllers
                 }
                 if (TempData["error"] != null)
                     TempData["error"] = TempData["error"];
-                IQueryable<string>? querry_typczytania;
                 try
                 {
-                    querry_typczytania =
-                    from typ in _db_czytania.STypCzytania
-                    select typ.STypCzytania;
+                    ViewData["typCzytania_list"] =
+                    (from typ in _db_czytania.STypCzytania
+                    select typ.STypCzytania).ToList();
                 }
                 catch (Exception)
                 {
                     TempData["error"] = "Wystąpił błąd podczas wczytywania danych.";
                     return RedirectToAction("Index");
                 }
-                ViewData["typCzytania_list"] = querry_typczytania.ToList();
                 return View(model);
             }
             TempData["error"] = "Wystąpił błąd podczas ładowania danych.";
