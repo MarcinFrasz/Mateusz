@@ -302,6 +302,12 @@ namespace DbManipulationApp.Controllers
                 {
                     TempData["error"] = "Wystąpił problem podczas ładowania danych.";
                 }
+                if(check_querry==null)
+                {
+                    TempData["error"] = "Wystąpił problem podczas wczytywania danych. Proszę spróbować ponownie.";
+                    TempData["date"] = model.MainRecord.Data.Date.ToString("dd/MM/yyyy");
+                    return RedirectToAction("Index");
+                }
                 if (check_querry.IdVideo != model.MainRecord.IdVideo ||
                     model.EditedRecord.IdVideo != model.MainRecord.IdVideo ||
                     check_querry.RowVersion != model.MainRecord.RowVersion)

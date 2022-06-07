@@ -1,5 +1,72 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model KsiazkiViewModel
+
+@*Index for Ksiazki*@
+
+<form method="post">
+<h1>Zarządzanie zawartością tabeli "Ksiazki"</h1>
+<div class="border p-3 mt-4">
+    <div class="mb-3">
+    <label class="control-label">Wybierz tytuł:</label>
+        <select asp-for="Title"  id="titlepicked"
+class="form-control" 
+asp-items= "@((List<string>)ViewData["title_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+</select>
+    <span asp-validation-for=Title class=text-danger></span>
+    <div align="right">
+    <a asp-controller="Ksiazki" asp-action="Index"  
+            class="btn btn-info"><i class="bi bi-arrow-clockwise"></i> Odśwież stronę</a>
+    <button asp-asp-controller="Ksiazki"
+    id="Button_search"
+    type="button" 
+    style="margin-top:10px; margin-bottom:10px;"
+    class="btn btn-info" 
+    onclick="OnChangeTitle()"
+    >
+    <i class="bi bi-search"></i>Szukaj</button>
+    </div>
+            </div>
+    </div>
+<div align="right" style="margin-top:10px">
+   <a asp-controller="Ksiazki" asp-action="Add" 
+    class="btn btn-success"><i class="bi bi-pencil-square"></i> Dodaj nowy rekord</a>
+</div>
+</form>
+<div id="KsiazkiDisplay">
+<partial name="_KsiazkiDisplay" model=@Model.Books/>
+</div>
+
+
+@section Scripts
+    {   
+    <script>
+        function OnChangeTitle()
+        {
+      $.ajax({
+            url: '@Url.Action("IndexTytulPicked", "Ksiazki")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { title:$('#titlepicked').val()},
+             headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+            dataType: 'html',
+            traditional: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (response) {
+                $('#KsiazkiDisplay').html(response);
+            }
+        });
+        }
+    </script>  
+    }
+
+    

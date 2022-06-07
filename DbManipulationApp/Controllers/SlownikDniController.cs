@@ -18,6 +18,7 @@ namespace DbManipulationApp.Controllers
 
         public IActionResult Index()
         {
+            ModelState.Clear();
             SlownikDniViewModel model = new();
             if (TempData["dzienliturgiczny"] != null)
             {
@@ -65,6 +66,7 @@ namespace DbManipulationApp.Controllers
 
         public IActionResult Add()
         {
+            ModelState.Clear();
             SlownikDni model = new();
             if (TempData["model"] != null)
                 model = JsonConvert.DeserializeObject<SlownikDni>((string)TempData["model"]);

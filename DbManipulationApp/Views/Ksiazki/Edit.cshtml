@@ -1,5 +1,92 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model KsiazkiEditModel
+@* Edit view for Ksiazki*@
+<form method="post">
+<input asp-for=EditedRecord.RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Edytuj Video</h1>
+<div class="mb-3">
+<label asp-for="EditedRecord.IdKsiazki"></label>
+<input asp-for="EditedRecord.IdKsiazki" class="form-control" disabled />
+<input asp-for="EditedRecord.IdKsiazki" hidden/>
+<span asp-validation-for="EditedRecord.IdKsiazki" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.IdKmt"></label>
+<input asp-for=EditedRecord.IdKmt class="form-control"/>
+<span asp-validation-for="EditedRecord.IdKmt" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.Tytul"></label>
+<textarea asp-for=EditedRecord.Tytul class="form-control"></textarea>
+<span asp-validation-for="EditedRecord.Tytul" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=EditedRecord.Autor></label>
+<input asp-for=EditedRecord.Autor class="form-control"/>
+<span asp-validation-for="EditedRecord.Autor" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=EditedRecord.Foto></label>
+<input asp-for=EditedRecord.Foto class="form-control"/>
+<span asp-validation-for="EditedRecord.Foto" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=EditedRecord.Opis></label>
+<textarea asp-for=EditedRecord.Opis class="form-control"></textarea>
+<span asp-validation-for="EditedRecord.Opis" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-success">
+   Zapisz zmiany</button>
+   <a asp-controller="Ksiazki" asp-action="Index" class="btn btn-secondary">
+           <i class="bi bi-arrow-return-left"></i> Wróć do listy
+        </a>
+</div>
+<table  class="table table-hover">
+    <thead>
+    <tr class="table-primary">
+        <th>Id książki</th>
+        <th>Kmt id</th>
+        <th>Tytuł</th>
+        <th>Autor</th>
+        <th>Foto</th>
+        <th>Opis</th>
+    </tr>
+    </thead>
+             <tr>
+            <td>
+                @Model.MainRecord.IdKsiazki
+                <input asp-for=MainRecord.IdKsiazki hidden />
+            </td>
+            <td>
+                @Model.MainRecord.IdKmt
+                <input asp-for=MainRecord.IdKmt hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.Tytul
+                <input asp-for=MainRecord.Tytul hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.Autor
+                <input asp-for=MainRecord.Autor hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.Foto
+                <input asp-for=MainRecord.Foto hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.Opis
+                <input asp-for=MainRecord.Opis hidden/>
+                <input asp-for=MainRecord.RowVersion hidden/>
+                </td>
+            </tr>
+</table>
+</form>
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
 }

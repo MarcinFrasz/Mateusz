@@ -33,9 +33,10 @@ namespace DbManipulationApp.Controllers
             catch (Exception)
             {
                 TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
+                TempData["dzienLiturgiczny_list"] = new List<string>();
                 return View(model);
             }
-            List<string> dzienliturginczny_list = new List<string>();
+            List<string> dzienliturginczny_list = new();
             foreach (var item in querry_dzienliturgiczny)
             {
                 dzienliturginczny_list.Add(item.DzienLiturgiczny + "|" + item.NazwaDnia);
@@ -115,6 +116,7 @@ namespace DbManipulationApp.Controllers
 
         public IActionResult Add()
         {
+            ModelState.Clear();
             Lekcjonarz model = new();
             if (TempData["model"] != null)
                 model = JsonConvert.DeserializeObject<Lekcjonarz>((string)TempData["model"]);
@@ -127,9 +129,9 @@ namespace DbManipulationApp.Controllers
             catch (Exception)
             {
                 TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
-                return View(model);
+                return RedirectToAction("Index");
             }
-            List<string> dzienliturginczny_list = new List<string>();
+            List<string> dzienliturginczny_list = new ();
             foreach (var item in querry_dzienliturgiczny)
             {
                 dzienliturginczny_list.Add(item.DzienLiturgiczny + "|" + item.NazwaDnia);
@@ -315,7 +317,7 @@ namespace DbManipulationApp.Controllers
                     TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
                     return View(model);
                 }
-                List<string> dzienliturginczny_list = new List<string>();
+                List<string> dzienliturginczny_list = new ();
                 foreach (var item in querry_dzienliturgiczny)
                 {
                     dzienliturginczny_list.Add(item.DzienLiturgiczny + "|" + item.NazwaDnia);

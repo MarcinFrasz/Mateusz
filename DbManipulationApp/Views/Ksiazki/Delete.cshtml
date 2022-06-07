@@ -1,5 +1,59 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Ksiazki
+@*  Delete view for Ksiazki*@
+<form method="post">
+<input asp-for=RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Usuń Video</h1>
+<div class="mb-3">
+<label asp-for=IdKsiazki></label>
+<input asp-for="IdKsiazki" class="form-control" hidden/>
+<input asp-for="IdKsiazki" class="form-control" disabled/>
+<span asp-validation-for="IdKsiazki"/>
+</div>
+<div class="mb-3">
+<label asp-for="IdKmt"></label>
+<input asp-for=IdKmt class="form-control" disabled/>
+<input asp-for="IdKmt" class="form-control" hidden/>
+<span asp-validation-for="IdKmt" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="Tytul"></label>
+<textarea asp-for=Tytul class="form-control" disabled></textarea>
+<textarea asp-for="Tytul" class="form-control" hidden></textarea>
+<span asp-validation-for="Tytul" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=Autor></label>
+<input asp-for=Autor class="form-control" disabled/>
+<input asp-for="Autor" class="form-control" hidden/>
+<span asp-validation-for="Autor" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=Foto></label>
+<input asp-for=Foto class="form-control" disabled/>
+<input asp-for="Foto" class="form-control" hidden/>
+<span asp-validation-for="Foto" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=Opis></label>
+<textarea asp-for=Opis class="form-control" disabled></textarea>
+<textarea asp-for="Opis" class="form-control" hidden></textarea>
+<span asp-validation-for="Opis" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-danger">
+   Usuń</button>
+   <a asp-controller="Ksiazki" asp-action="Index" class="btn btn-secondary">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
 }

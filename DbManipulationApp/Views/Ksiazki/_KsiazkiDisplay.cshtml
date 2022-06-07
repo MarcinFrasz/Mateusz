@@ -1,31 +1,35 @@
-﻿@model IEnumerable<SlownikDni>
+﻿@model IEnumerable<Ksiazki>
 <label class="text-danger">@TempData["error"]</label>
 <br />
 <div style="overflow:scroll; height:600px;">
 <table  class="table table-hover">
     <thead>
     <tr class="table-primary">
-        <th>Dzień liturgiczny</th>
-        <th>Nazwa dnia</th>
-        <th>Święto</th>
-        <th> Timestamp</th>
+        <th>Id książki</th>
+        <th>Id kmt</th>
+        <th>Tytuł</th>
+        <th> Autor</th>
+        <th>Zdjęcie</th>
+        <th>Opis</th>
     </tr>
     </thead>
     @{
             foreach(var item in Model)
             {
             <tr>
-            <td>@item.DzienLiturgiczny</td>
-            <td>@item.NazwaDnia</td>
-            <td>@item.Swieto</td>
-            <td>@item.Timestamp</td>
+            <td>@item.IdKsiazki</td>
+            <td>@item.IdKmt</td>
+            <td>@item.Tytul</td>
+            <td>@item.Autor</td>
+            <td>@item.Foto</td>
+            <td>@item.Opis</td>
             <td>
             <div align="center">
-            <a asp-controller="SlownikDni" asp-action="Edit" asp-route-id="@item.DzienLiturgiczny" 
+            <a asp-controller="Ksiazki" asp-action="Edit" asp-route-id="@item.IdKsiazki" 
             class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edytuj</a>
             <br>
             <br>
-            <a asp-controller="SlownikDni" asp-action="Delete" asp-route-id="@item.DzienLiturgiczny" 
+            <a asp-controller="Ksiazki" asp-action="Delete" asp-route-id="@item.IdKsiazki" 
             class="btn btn-danger"><i class="bi bi-trash-fill"></i> Usuń</a>
             </div>
             </td>

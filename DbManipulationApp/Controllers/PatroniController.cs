@@ -47,7 +47,7 @@ namespace DbManipulationApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult IndexDatePicked(string? date)
         {
-            Regex regex=new Regex(@"^([0][1-9]|[1][0-2])[-]([0][1-9]|[1-2][0-9]|[3][0-1])$");
+            Regex regex=new (@"^([0][1-9]|[1][0-2])[-]([0][1-9]|[1-2][0-9]|[3][0-1])$");
             if (regex.IsMatch(date))
             {
                 IQueryable<Patroni>? querry_search;
@@ -239,6 +239,7 @@ namespace DbManipulationApp.Controllers
                     return RedirectToAction("Index");
                 }
                 TempData["error"] = "Wystąpił problem podczas edycji. Proszę spróbować ponownie.";
+                TempData["date"] = model.EditedRecord.Data;
                 return RedirectToAction("Index");
             }
             TempData["error"] = "Wystąpił problem z walidacją.";
