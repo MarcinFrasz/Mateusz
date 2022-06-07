@@ -12,12 +12,32 @@
 </div>
 <div class="mb-3">
 <label asp-for="EditedRecord.DzienLiturgiczny"></label>
-<input asp-for=EditedRecord.DzienLiturgiczny class="form-control"/>
+<select asp-for="EditedRecord.DzienLiturgiczny" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["dzienLiturgiczny_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+</select>
 <span asp-validation-for="EditedRecord.DzienLiturgiczny" class="text-danger"></span>
 </div>
 <div class="mb-3">
 <label asp-for="EditedRecord.TypCzytania"></label>
-<textarea asp-for=EditedRecord.TypCzytania class="form-control"></textarea>
+<select asp-for="EditedRecord.TypCzytania" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["typCzytania_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+</select>
 <span asp-validation-for="EditedRecord.TypCzytania" class="text-danger"></span>
 </div>
 <div class="mb-3">

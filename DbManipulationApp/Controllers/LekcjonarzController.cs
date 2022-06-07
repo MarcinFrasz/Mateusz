@@ -168,6 +168,16 @@ namespace DbManipulationApp.Controllers
                 }
                 if(querry_check.Any())
                 {
+                    try
+                    {
+                        var temp = _db_czytania.SlownikDnis.Find(model.DzienLiturgiczny);
+                        model.DzienLiturgiczny = temp.DzienLiturgiczny + "|" + temp.NazwaDnia;
+                    }
+                    catch (Exception)
+                    {
+                        TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
+                        return RedirectToAction("Index");
+                    }
                     TempData["error"] = "Istnieje już rekord dla podanego dnia liturgicznego i typu czytania.";
                     TempData["model"] = JsonConvert.SerializeObject(model);
                     return RedirectToAction("Add");
@@ -276,7 +286,17 @@ namespace DbManipulationApp.Controllers
                 {
                     model.EditedRecord = new();
                     model.EditedRecord.IdLlekcjonarz = model.MainRecord.IdLlekcjonarz;
-                    model.EditedRecord.DzienLiturgiczny = model.MainRecord.DzienLiturgiczny;
+                    try
+                    {
+                        var temp = _db_czytania.SlownikDnis.Find(model.MainRecord.DzienLiturgiczny);
+                        model.EditedRecord.DzienLiturgiczny = temp.DzienLiturgiczny + "|" + temp.NazwaDnia;
+                    }
+                    catch(Exception)
+                    {
+                        TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
+                        return RedirectToAction("Index");
+                    }
+                  
                     model.EditedRecord.TypCzytania = model.MainRecord.TypCzytania;
                     model.EditedRecord.Siglum = model.MainRecord.Siglum;
                     model.EditedRecord.Tekst = model.MainRecord.Tekst;
@@ -324,6 +344,7 @@ namespace DbManipulationApp.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 Lekcjonarz? model_check;
                 try
                 {
@@ -336,6 +357,7 @@ namespace DbManipulationApp.Controllers
                 }
                 if(model_check!=null)
                 {
+                    model.EditedRecord.DzienLiturgiczny=model.EditedRecord.DzienLiturgiczny.Substring(0, 8);
                  if(model_check.RowVersion==model.MainRecord.RowVersion &&
                         model.MainRecord.IdLlekcjonarz==model.EditedRecord.IdLlekcjonarz)
                     {
@@ -372,6 +394,16 @@ namespace DbManipulationApp.Controllers
                                 }
                                 TempData["success"] = "Pomyślnie dodano nowy rekord";
                                 TempData["dzienliturgiczny"] = model.EditedRecord.DzienLiturgiczny;
+                                return RedirectToAction("Index");
+                            }
+                            try
+                            {
+                                var temp = _db_czytania.SlownikDnis.Find(model.EditedRecord.DzienLiturgiczny);
+                                model.EditedRecord.DzienLiturgiczny = temp.DzienLiturgiczny + "|" + temp.NazwaDnia;
+                            }
+                            catch (Exception)
+                            {
+                                TempData["error"] = "Wystąpił problem podczas wczytywania danych.";
                                 return RedirectToAction("Index");
                             }
                             TempData["error"] = "Istnieje już rekord dla podanego dnia liturgicznego i typu czytania.";
