@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Kalendarz>
+<br />
+<div id="Videos_table" style="overflow:scroll; height:600px;">
+<table  class="table table-hover">
+    <thead>
+    <tr class="table-primary">
+        <th>Data</th>
+        <th>Dzień liturgiczny</th>
+        <th>Nazwa dnia</th>
+        <th>Komentarz źródło[1]</th>
+        <th>Komentarz źródło[2]</th>
+        <th>Id książki</th>
+        <th>Numer tygodnia</th>
+    </tr>
+    </thead>
+    @{
+            foreach (var item in Model)
+            {
+            
+             <tr>
+            <td>@item.Data.Date.Date.ToString("dd/MM/yyyy")</td>
+            <td>@item.DzienLiturgiczny</td>
+            <td>@item.NazwaDnia</td>
+            <td>@item.KomZrodloD</td>
+            <td>@item.KomZrodloM</td>
+            <td>@item.IdKsiazka1</td>
+            <td>@item.NumerTygodnia</td>
+            <td>
+            <div align="center">
+            <a asp-controller="Kalendarz" asp-action="Edit" asp-route-id="@item.Data" 
+            class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edytuj</a>
+            <br>
+            <br>
+            <a asp-controller="Kalendarz" asp-action="Delete" asp-route-id="@item.Data" 
+            class="btn btn-danger"><i class="bi bi-trash-fill"></i> Usuń</a>
+            </div>
+            </td>
+            </tr>
+        }
+    }
+</table>
+</div>
+<br />

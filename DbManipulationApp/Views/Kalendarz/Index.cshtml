@@ -1,5 +1,65 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model KalendarzViewModel
+
+@*Index for Kalendarz*@
+<form method="post">
+<h1>Zarządzanie zawartością tabeli "Kalendarz"</h1>
+<div class="border p-3 mt-4">
+    <div class="mb-3">
+    <label class="control-label">Podaj datę:</label>
+    <input asp-for=Date 
+    id="datepicked" 
+    type="date"
+    class="form-control" 
+    />  
+    <div align="right">
+            <a asp-controller="Kalendarz" asp-action="Index"  
+            class="btn btn-info"><i class="bi bi-arrow-clockwise"></i> Odśwież stronę</a>
+        <button 
+    asp-asp-controller="Kalendarz"
+    id="Button_search"
+    type="button" 
+    style="margin-top:10px; margin-bottom:10px;"
+    class="btn btn-info" 
+    onclick="OnChangeDate()"
+    >
+    <i class="bi bi-search"></i>Szukaj</button>
+    </div>
+            </div>
+    </div>
+<div align="right" style="margin-top:10px">
+   <button type="submit" class="btn btn-success">
+  <i class="bi bi-plus-circle"></i> Dodaj nowy rekord</button>
+</div>
+    </form>
+<div id="KalendarzDisplay">
+<partial name="_KalendarzDisplay" model=@Model.Kalendarz/>
+</div>
+
+
+@section Scripts
+    {   
+    <script>
+        function OnChangeDate()
+        {
+      $.ajax({
+            url: '@Url.Action("IndexDatePicked", "Kalendarz")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { date:$('#datepicked').val()},
+             headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+            dataType: 'html',
+            traditional: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (response) {
+                $('#KalendarzDisplay').html(response);
+            }
+        });
+        }
+    </script>
+    }
+
+    
