@@ -1,5 +1,152 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model KalendarzEditModel
+@* Edit view for Kalendarz*@
+<form method="post">
+<input asp-for=EditedRecord.RowVersion hidden />
+<div class="border p-3 mt-4">
+<h1>Edytuj Kalendarz</h1>
+<div class="mb-3">
+<label asp-for="EditedRecord.Data"></label>
+<input asp-for="EditedRecord.Data" type="date" class="form-control"  />
+<span asp-validation-for="EditedRecord.Data" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.DzienLiturgiczny"></label>
+<select asp-for="EditedRecord.DzienLiturgiczny" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["dzienLiturgiczny_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+
+</select>
+<span asp-validation-for="EditedRecord.DzienLiturgiczny" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=EditedRecord.NazwaDnia></label>
+<textarea asp-for=EditedRecord.NazwaDnia class="form-control" disabled></textarea>
+<textarea asp-for=EditedRecord.NazwaDnia class="form-control" hidden></textarea>
+<span asp-validation-for="EditedRecord.NazwaDnia" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.KomZrodloD"></label>
+<select asp-for="EditedRecord.KomZrodloD" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["komentarz_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+
+</select>
+<span asp-validation-for="EditedRecord.KomZrodloD" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EditedRecord.KomZrodloM"></label>
+<select asp-for="EditedRecord.KomZrodloM" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["komentarz_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+
+</select>
+<span asp-validation-for="EditedRecord.KomZrodloM" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="BookId"></label>
+<select asp-for="BookId" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["ksiazki_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+
+</select>
+<span asp-validation-for="BookId" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=EditedRecord.NumerTygodnia></label>
+<input asp-for=EditedRecord.NumerTygodnia class="form-control"/>
+<span asp-validation-for="EditedRecord.NumerTygodnia" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=ShowPatron></label>
+<input asp-for=ShowPatron type="checkbox" class="form-check-input"/>
+<span asp-validation-for="ShowPatron" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-success">
+   Zapisz zmiany</button>
+   <a asp-controller="Video" asp-action="Index" class="btn btn-secondary">
+           <i class="bi bi-arrow-return-left"></i> Wróć do listy
+        </a>
+</div>
+<table  class="table table-hover">
+    <thead>
+    <tr class="table-primary">
+        <th>Data</th>
+        <th>Dzień liturgiczny</th>
+        <th>Nazwa dnia</th>
+        <th>KomentarzD</th>
+        <th>KomentarzM</th>
+        <th>Id książki</th>
+        <th>Number tygodnia</th>
+    </tr>
+    </thead>
+             <tr>
+            <td>
+                @Model.MainRecord.Data
+                <input asp-for=MainRecord.Data hidden />
+            </td>
+            <td>
+                @Model.MainRecord.DzienLiturgiczny
+                <input asp-for=MainRecord.DzienLiturgiczny hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.NazwaDnia
+                <input asp-for=MainRecord.NazwaDnia hidden/>
+                </td>
+           
+            <td>
+                @Model.MainRecord.KomZrodloD
+                <input asp-for=MainRecord.KomZrodloD hidden/>
+                </td>
+           <td>
+                @Model.MainRecord.KomZrodloM
+                <input asp-for=MainRecord.KomZrodloM hidden/>
+                </td>
+           <td>
+                @Model.MainRecord.IdKsiazka1
+                <input asp-for=MainRecord.IdKsiazka1 hidden/>
+                </td>
+            <td>
+                @Model.MainRecord.NumerTygodnia
+                <input asp-for=MainRecord.NumerTygodnia hidden/>
+                <input asp-for=MainRecord.RowVersion hidden/>
+                </td>
+            </tr>
+</table>
+</form>
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
 }

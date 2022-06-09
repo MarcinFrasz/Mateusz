@@ -28,8 +28,8 @@ asp-items= "@((List<string>)ViewData["dzienLiturgiczny_list"]).ConvertAll(a =>
 </div>
 <div class="mb-3">
 <label asp-for=Kalendarz.NazwaDnia></label>
-<textarea asp-for=Kalendarz.NazwaDnia id="dayName" class="form-control" disabled></textarea>
-<textarea asp-for=Kalendarz.NazwaDnia  class="form-control" hidden></textarea>
+<textarea asp-for=Kalendarz.NazwaDnia id="dayNameDisabled" class="form-control" disabled></textarea>
+<textarea asp-for=Kalendarz.NazwaDnia  id="dayName" class="form-control" hidden></textarea>
 <span asp-validation-for="Kalendarz.NazwaDnia" class="text-danger"></span>
 </div>
 <div class="mb-3">
@@ -65,8 +65,8 @@ asp-items= "@((List<string>)ViewData["komentarz_list"]).ConvertAll(a =>
 <span asp-validation-for="Kalendarz.KomZrodloM" class="text-danger"></span>
 </div>
 <div class="mb-3">
-<label asp-for="Kalendarz.IdKsiazka1"></label>
-<select asp-for="Kalendarz.IdKsiazka1" 
+<label asp-for="BookId"></label>
+<select asp-for="BookId" 
 class="form-control" 
 asp-items= "@((List<string>)ViewData["ksiazki_list"]).ConvertAll(a =>
                 
@@ -78,7 +78,7 @@ asp-items= "@((List<string>)ViewData["ksiazki_list"]).ConvertAll(a =>
                     }).ToList()">
 
 </select>
-<span asp-validation-for="Kalendarz.IdKsiazka1" class="text-danger"></span>
+<span asp-validation-for="BookId" class="text-danger"></span>
 </div>
 <div class="mb-3">
 <label asp-for=Kalendarz.NumerTygodnia></label>
@@ -86,11 +86,16 @@ asp-items= "@((List<string>)ViewData["ksiazki_list"]).ConvertAll(a =>
 <span asp-validation-for="Kalendarz.NumerTygodnia" class="text-danger"></span>
 </div>
 <div class="mb-3">
+<label asp-for=ShowPatron></label>
+<input asp-for=ShowPatron type="checkbox" class="form-check-input"/>
+<span asp-validation-for="ShowPatron" class="text-danger"></span>
+</div>
+<div class="mb-3">
 <label class="text-danger">@TempData["error"]</label>
    </div>
    <button type="submit" class="btn btn-success">
    Dodaj</button>
-   <a asp-controller="Video" asp-action="Index" class="btn btn-secondary" style="width:150px">
+   <a asp-controller="Kalendarz" asp-action="Index" class="btn btn-secondary" style="width:150px">
             Wróć do listy
         </a>
 </div>
@@ -120,6 +125,7 @@ asp-items= "@((List<string>)ViewData["ksiazki_list"]).ConvertAll(a =>
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (response) {
                 $('#dayName').val(response.name);
+                $('#dayNameDisabled').val(response.name);
             }
         });
         }
