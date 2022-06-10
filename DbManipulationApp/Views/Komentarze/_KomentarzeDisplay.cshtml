@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Komentarze>
+<label class="text-danger">@TempData["error"]</label>
+<br />
+<div id="Kalendarz_table" style="overflow:scroll; height:600px;">
+<table  class="table table-hover">
+    <thead>
+    <tr class="table-primary">
+        <th>Id komentarza</th>
+        <th>Dzień liturgiczny</th>
+        <th>Komentarz źródło</th>
+        <th>Tekst</th>
+    </tr>
+    </thead>
+    @{
+            foreach(var item in Model)
+            {
+            <tr>
+            <td>@item.Idkom</td>
+            <td>@item.DzienLiturgiczny</td>
+            <td>@item.KomZrodlo</td>
+            <td>@item.Tekst</td>
+            <td>
+            <div align="center">
+            <a asp-controller="Komentarze" asp-action="Edit" asp-route-id="@item.Idkom" 
+            class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edytuj</a>
+            <br>
+            <br>
+            <a asp-controller="Komentarze" asp-action="Delete" asp-route-id="@item.Idkom" 
+            class="btn btn-danger"><i class="bi bi-trash-fill"></i> Usuń</a>
+            </div>
+            </td>
+            </tr>
+            }
+        }
+</table>
+</div>
+<br />

@@ -149,9 +149,8 @@ namespace DbManipulationApp.Controllers
                 }
                 if (qValidateDate.Any() == false)
                 {
-                    DateTime Date = model.Kalendarz.Data;
-                    string month = Date.Month.ToString();
-                    string day = Date.Day.ToString();
+                    string month = model.Kalendarz.Data.Month.ToString();
+                    string day = model.Kalendarz.Data.Day.ToString();
                     if (month.Length < 2)
                         month = "0" + month;
                     if (day.Length < 2)
@@ -296,7 +295,6 @@ namespace DbManipulationApp.Controllers
             {
                 if (model.EditedRecord == null)
                 {
-
                     model.EditedRecord = new();
                     try
                     {

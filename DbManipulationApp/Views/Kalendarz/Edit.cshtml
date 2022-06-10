@@ -84,12 +84,7 @@ asp-items= "@((List<string>)ViewData["ksiazki_list"]).ConvertAll(a =>
 <input asp-for=EditedRecord.NumerTygodnia class="form-control"/>
 <span asp-validation-for="EditedRecord.NumerTygodnia" class="text-danger"></span>
 </div>
-<div class="mb-3">
-<label asp-for=ShowPatron></label>
-<input asp-for=ShowPatron type="checkbox" class="form-check-input"/>
-<span asp-validation-for="ShowPatron" class="text-danger"></span>
-</div>
-<div class="mb-3">
+        <div class="mb-3">
 <label class="text-danger">@TempData["error"]</label>
    </div>
    <button type="submit" class="btn btn-success">
