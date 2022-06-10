@@ -1,5 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Komentarze
+@*  Add view for Komentarze*@
+<form method="post">
+<div class="border p-3 mt-4">
+<h1>Dodaj Lekcjonarz</h1>
+<div class="mb-3">
+<label asp-for="DzienLiturgiczny"></label>
+<select asp-for="DzienLiturgiczny" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["dzienLiturgiczny_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+</select>
+<span asp-validation-for="DzienLiturgiczny" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="KomZrodlo"></label>
+<select asp-for="KomZrodlo" 
+class="form-control" 
+asp-items= "@((List<string>)ViewData["komentarz_list"]).ConvertAll(a =>
+                
+                     new SelectListItem()
+                    {
+                        Text = a.ToString(),
+                        Value = a.ToString(),
+                        Selected = false
+                    }).ToList()">
+</select>
+<span asp-validation-for="KomZrodlo" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for=Tekst></label>
+<textarea asp-for=Tekst  class="form-control"></textarea>
+<span asp-validation-for="Tekst" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-success">
+   Dodaj</button>
+   <a asp-controller="Lekcjonarz" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
 }
