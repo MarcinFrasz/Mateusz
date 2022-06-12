@@ -1,11 +1,13 @@
 ﻿using DbManipulationApp.Data;
 using DbManipulationApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace DbManipulationApp.Controllers
 {
+    [Authorize]
     public class KomentarzeController : Controller
     {
         private readonly DbManipulationAppContext _db_identity;

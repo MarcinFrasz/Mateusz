@@ -1,11 +1,13 @@
 ﻿using DbManipulationApp.Data;
 using DbManipulationApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
 namespace DbManipulationApp.Controllers
 {
+    [Authorize]
     public class PatroniController : Controller
     {
         private readonly DbManipulationAppContext _db_identity;

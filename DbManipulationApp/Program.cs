@@ -20,6 +20,15 @@ builder.Services.AddDbContext<czytaniaContext>(options => options.UseSqlServer(c
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    //Location for your Custom Access Denied Page
+    options.AccessDeniedPath = "/Home/Index";
+
+    //Location for your Custom Login Page
+    options.LoginPath = "/Home/Index";
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

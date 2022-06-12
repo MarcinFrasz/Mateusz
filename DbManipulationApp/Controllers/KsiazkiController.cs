@@ -1,10 +1,12 @@
 ﻿using DbManipulationApp.Data;
 using DbManipulationApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace DbManipulationApp.Controllers
 {
+    [Authorize]
     public class KsiazkiController : Controller
     {
         private readonly DbManipulationAppContext _db_identity;
