@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityUser>
+
+@*Index for Admin*@
+
+<form method="post">
+<h1>Zarządzanie użytkownikami</h1>
+<div align="right" style="margin-top:10px">
+   <a asp-controller="Lekcjonarz" asp-action="Add" 
+    class="btn btn-success"><i class="bi bi-pencil-square"></i> Dodaj użytkownika</a>
+</div>
+</form>
+<div id="LekcjonarzDisplay">
+<partial name="_UserDisplay" model=@Model/>
+</div>
+
+
+    
