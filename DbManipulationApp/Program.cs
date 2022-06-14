@@ -10,12 +10,14 @@ builder.Services.AddDbContext<DbManipulationAppContext>(options =>
     options.UseSqlServer(connectionString_identity));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<DbManipulationAppContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 var connectionString_czytania = builder.Configuration.GetConnectionString("CzytaniaConnection") ?? throw new InvalidOperationException("Connection string 'CzytaniaConnection' not found ");
 builder.Services.AddDbContext<czytaniaContext>(options => options.UseSqlServer(connectionString_czytania));
+
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -49,14 +51,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.MapRazorPages();
-
 app.Run();

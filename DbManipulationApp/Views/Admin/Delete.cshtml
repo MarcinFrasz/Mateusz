@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityUser
+
+<form method="post">
+<input asp-for=ConcurrencyStamp hidden />
+<div class="border p-3 mt-4">
+<h1>Usuń Komentarz</h1>
+<div class="mb-3">
+<label asp-for=Id></label>
+<input asp-for="Id" class="form-control" hidden/>
+<input asp-for="Id" class="form-control" disabled/>
+<span asp-validation-for="Id"/>
+</div>
+<div class="mb-3">
+<label asp-for="Email"></label>
+<input asp-for=Email class="form-control" disabled/>
+<input asp-for="Email" class="form-control" hidden/>
+<span asp-validation-for="EmailConfirmed" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label asp-for="EmailConfirmed"></label>
+<input asp-for=EmailConfirmed type="checkbox" class="form-check-input" disabled/>
+<input asp-for="EmailConfirmed" class="form-control" hidden/>
+<span asp-validation-for="EmailConfirmed" class="text-danger"></span>
+</div>
+<div class="mb-3">
+<label class="text-danger">@TempData["error"]</label>
+   </div>
+   <button type="submit" class="btn btn-danger">
+   Usuń</button>
+   <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">
+            Wróć do listy
+        </a>
+</div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+     }
+}
+
