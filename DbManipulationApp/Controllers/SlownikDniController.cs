@@ -9,12 +9,9 @@ namespace DbManipulationApp.Controllers
     [Authorize]
     public class SlownikDniController : Controller
     {
-
-        private readonly DbManipulationAppContext _db_identity;
         private readonly czytaniaContext _db_czytania;
-        public SlownikDniController(DbManipulationAppContext db_identity, czytaniaContext db_czytania)
+        public SlownikDniController(czytaniaContext db_czytania)
         {
-            _db_identity = db_identity;
             _db_czytania = db_czytania;
         }
 

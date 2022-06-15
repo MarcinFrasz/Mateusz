@@ -9,11 +9,9 @@ namespace DbManipulationApp.Controllers
     [Authorize]
     public class KsiazkiController : Controller
     {
-        private readonly DbManipulationAppContext _db_identity;
         private readonly czytaniaContext _db_czytania;
-        public KsiazkiController(DbManipulationAppContext db_identity, czytaniaContext db_czytania)
+        public KsiazkiController( czytaniaContext db_czytania)
         {
-            _db_identity = db_identity;
             _db_czytania = db_czytania;
         }
         public IActionResult Index()

@@ -10,11 +10,9 @@ namespace DbManipulationApp.Controllers
     [Authorize]
     public class VideoController : Controller
     {
-        private readonly DbManipulationAppContext _db_identity;
         private readonly czytaniaContext _db_czytania;
-        public VideoController(DbManipulationAppContext db_identity, czytaniaContext db_czytania)
+        public VideoController( czytaniaContext db_czytania)
         {
-            _db_identity = db_identity;
             _db_czytania = db_czytania;
         }
 

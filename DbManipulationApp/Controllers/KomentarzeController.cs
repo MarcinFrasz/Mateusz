@@ -149,7 +149,7 @@ namespace DbManipulationApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Add(Komentarze model)
         {
-            IQueryable<Komentarze>? querry_check;
+
             if (ModelState.IsValid)
             {
                 model.DzienLiturgiczny = model.DzienLiturgiczny.Substring(0, 8);

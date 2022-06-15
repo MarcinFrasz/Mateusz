@@ -12,6 +12,12 @@
 <span asp-validation-for="Id"/>
 </div>
 <div class="mb-3">
+<label asp-for="UserName"></label>
+<input asp-for=UserName class="form-control" disabled/>
+<input asp-for="UserName" class="form-control" hidden/>
+<span asp-validation-for="EmailConfirmed" class="text-danger"></span>
+</div>
+<div class="mb-3">
 <label asp-for="Email"></label>
 <input asp-for=Email class="form-control" disabled/>
 <input asp-for="Email" class="form-control" hidden/>
@@ -22,6 +28,11 @@
 <input asp-for=EmailConfirmed type="checkbox" class="form-check-input" disabled/>
 <input asp-for="EmailConfirmed" class="form-control" hidden/>
 <span asp-validation-for="EmailConfirmed" class="text-danger"></span>
+</div>
+<label asp-for="PhoneNumber"></label>
+<input asp-for=PhoneNumber class="form-control" disabled/>
+<input asp-for="PhoneNumber" class="form-control" hidden/>
+<span asp-validation-for="PhoneNumber" class="text-danger"></span>
 </div>
 <div class="mb-3">
 <label class="text-danger">@TempData["error"]</label>
