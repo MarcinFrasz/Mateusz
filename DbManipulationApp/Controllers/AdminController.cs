@@ -10,10 +10,13 @@ namespace DbManipulationApp.Controllers
     public class AdminController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public AdminController(UserManager<IdentityUser> userManager)
+        public AdminController(UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -69,8 +72,8 @@ namespace DbManipulationApp.Controllers
 
             if (user == null)
             {
-                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
-                return View("NotFound");
+                TempData["error"] = $"Użytkownik o Id = {id} nie został odnaleziony.";
+                return NotFound();
             }
 
             // GetClaimsAsync retunrs the list of user Claims
@@ -84,6 +87,7 @@ namespace DbManipulationApp.Controllers
                 Email = user.Email,
                 UserName = user.UserName,
                 PhoneNumber=user.PhoneNumber,
+                EmailConfirmed=user.EmailConfirmed,
                // Claims = userClaims.Select(c => c.Value).ToList(),
                 Roles = userRoles
             };
@@ -107,6 +111,7 @@ namespace DbManipulationApp.Controllers
                 user.Email = model.Email;
                 user.UserName = model.UserName;
                 user.PhoneNumber = model.PhoneNumber;
+                user.EmailConfirmed = model.EmailConfirmed;
 
                 var result = await userManager.UpdateAsync(user);
 
@@ -126,6 +131,77 @@ namespace DbManipulationApp.Controllers
 
                 return View(model);
             }
+        }
+
+        public async Task<IActionResult> ManageUserRoles(string userId)
+        {
+            ViewBag.userId = userId;
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                TempData["error"] = $"Użytkownik o Id = {userId} nie został odnaleziony.";
+                return NotFound();
+            }
+
+            var model = new List<UserRolesModel>();
+
+            foreach (var role in roleManager.Roles)
+            {
+                var userRolesViewModel = new UserRolesModel
+                {
+                    RoleId = role.Id,
+                    RoleName = role.Name
+                };
+
+                if (await userManager.IsInRoleAsync(user, role.Name))
+                {
+                    userRolesViewModel.IsSelected = true;
+                }
+                else
+                {
+                    userRolesViewModel.IsSelected = false;
+                }
+
+                model.Add(userRolesViewModel);
+            }
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult>
+            ManageUserRoles(List<UserRolesModel> model, string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                TempData["error"] = $"Użytkownik o Id = {userId} nie został odnaleziony.";
+                return NotFound();
+            }
+
+            var roles = await userManager.GetRolesAsync(user);
+            var result = await userManager.RemoveFromRolesAsync(user, roles);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Nie można usunąć istniejących ról użytkownika.");
+                return View(model);
+            }
+
+            result = await userManager.AddToRolesAsync(user,
+                model.Where(x => x.IsSelected).Select(y => y.RoleName));
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Nie można dodać wybranych roli użytkownikowi.");
+                return View(model);
+            }
+            TempData["success"] = "Pomyślnie zmodyfikowano rekord.";
+            return RedirectToAction("Index");
         }
 
 

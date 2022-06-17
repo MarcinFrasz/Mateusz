@@ -8,6 +8,8 @@
     <tr class="table-primary">
         <th>Id</th>
         <th>Email</th>
+        <th>Numer telefonu</th>
+        <th>Potwierdzony adres email</th>
     </tr>
     </thead>
     @{
@@ -16,6 +18,8 @@
             <tr>
             <td>@user.Id</td>
             <td>@user.Email</td>
+            <td>@user.PhoneNumber</td>
+            <td>@user.EmailConfirmed</td>
             <td>
             <div align="center">
             <a asp-controller="Admin" asp-action="Edit" asp-route-id="@user.Id" 
