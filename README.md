@@ -26,5 +26,5 @@ Application was created to provide user with a new web interface for his SQL db 
 - Connection strings are defined in appsettings.json and then assigned in Program.cs
 
 ## Project status
-Current on hold. Main features are complete.
+Currently on hold. Main features are complete.
 
